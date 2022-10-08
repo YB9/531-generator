@@ -14,6 +14,7 @@ good bar speed and control. Then, put the weight and reps you got into this <a h
 Notes : 
   <ul>
     <li> The program is in pounds (lb). </li>
+    <li> Warmup isn't included on the program but is a light one (around 5min) is reccomended. </li>
     <li> Legend : OHP = Overhead Press; BB = Barbell; DB = Dumbell. </li>
     <li> Feel free to customize the assitance work, it doesn't matter as much as the lifts. </li>
     <li> The print format functionality was tested on chrome, it may not work on other browsers. </li>

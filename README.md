@@ -19,4 +19,5 @@ Notes & Tips :
     <li> Legend : OHP = Overhead Press; BB = Barbell; DB = Dumbell. </li>
     <li> Feel free to customize the assitance work, it doesn't matter as much as the lifts. </li>
     <li> The print format functionality was tested on chrome, it may not work on other browsers. </li>
+    <li> Select the "remove background graphics" options from the google chrome print screen so you save on ink if printing it. </li>
   </ul> 

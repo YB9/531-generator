@@ -1,0 +1,44 @@
+{
+  "push": [
+    { "name": "Arnold Press", "muscle": "Shoulders" },
+    { "name": "Super Rom Lateral Raises", "muscle": "Shoulders" },
+    { "name": "Cable Raise", "muscle": "Shoulders" },
+    { "name": "Front Plate Raise", "muscle": "Shoulders" },
+    { "name": "Military Press", "muscle": "Shoulders" },
+    { "name": "Face Pulls", "muscle": "Shoulders" },
+    { "name": "Dips", "muscle": "Chest" },
+    { "name": "Pushups", "muscle": "Chest" },
+    { "name": "Incline DB Press", "muscle": "Chest" },
+    { "name": "Cambered Bar Bench Press", "muscle": "Chest" },
+    { "name": "Pushdown", "muscle": "Triceps" },
+    { "name": "Skull Crusher", "muscle": "Triceps" }
+  ],
+  "pull": [
+    { "name": "Chinups", "muscle": "Biceps" },
+    { "name": "Hammer curls", "muscle": "Biceps" },
+    { "name": "Seated Incline Dumbbell Curls", "muscle": "Biceps" },
+    { "name": "Preacher Curl", "muscle": "Biceps" },
+    { "name": "Cable Curls", "muscle": "Biceps" },
+    { "name": "EZ Bar Curls", "muscle": "Biceps" },
+    { "name": "Pullups", "muscle": "Back" },
+    { "name": "Lat Pulldowns", "muscle": "Back" },
+    { "name": "Dumbell Rows", "muscle": "Back" },
+    { "name": "Seated Cable Row", "muscle": "Back" },
+    { "name": "CoC Gripper", "muscle": "Forearms" },
+    { "name": "Wrist Curl", "muscle": "Forearms" }
+  ],
+  "legs": [
+    { "name": "Lunges", "muscle": "Quads" },
+    { "name": "DB Squats", "muscle": "Quads" },
+    { "name": "Leg Push", "muscle": "Quads" },
+    { "name": "Leg Press", "muscle": "Quads" },
+    { "name": "Hack Squat", "muscle": "Quads" },
+    { "name": "Front Squats", "muscle": "Quads" },
+    { "name": "Laying Leg Curl", "muscle": "Hamstrings" },
+    { "name": "Romanian Deadlift", "muscle": "Hamstrings" },
+    { "name": "Good Mornings", "muscle": "Hamstrings" },
+    { "name": "Hamstring Curl", "muscle": "Hamstrings" },
+    { "name": "Calf Raise", "muscle": "Calves" },
+    { "name": "Standing Calf Raise", "muscle": "Calves" }
+  ]
+}

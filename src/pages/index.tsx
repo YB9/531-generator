@@ -33,7 +33,7 @@ const Index = () => {
       <Steps step={step} />
       <Box
         mt={5}
-        h={"85%"}
+        h={"80%"}
         bgColor={"rgba(200, 230, 250, 0.8)"}
         borderRadius={5}
       >
@@ -41,7 +41,7 @@ const Index = () => {
         {step === 1 && <Assistance />}
         {step === 2 && <Program />}
       </Box>
-      <Flex mt={3} justifyContent={"space-between"}>
+      <Flex mt={5} justifyContent={"space-between"}>
         {step > 0 ? (
           <Button
             leftIcon={<ArrowBackIcon />}

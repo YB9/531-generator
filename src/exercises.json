@@ -45,19 +45,13 @@
     "name": "Rear Delt Fly",
     "group": ["shoulders"],
     "category": "assistance",
-    "split": "pull"
-  },
-  {
-    "name": "Front Plate Raise",
-    "group": ["shoulders"],
-    "category": "assistance",
     "split": "push"
   },
   {
     "name": "Upright Row",
     "group": ["shoulders"],
     "category": "assistance",
-    "split": "pull"
+    "split": "push"
   },
   {
     "name": "Dips",
@@ -72,22 +66,10 @@
     "split": "push"
   },
   {
-    "name": "Decline Dumbbell Press",
-    "group": ["chest", "triceps"],
-    "category": "assistance",
-    "split": "push"
-  },
-  {
     "name": "Cable Fly",
     "group": ["chest"],
     "category": "assistance",
     "split": "push"
-  },
-  {
-    "name": "Dumbbell Pullover",
-    "group": ["chest", "back"],
-    "category": "assistance",
-    "split": "pull"
   },
   {
     "name": "Cable Pushdown",
@@ -96,13 +78,7 @@
     "split": "push"
   },
   {
-    "name": "Dumbbell Overhead Triceps Extension",
-    "group": ["triceps"],
-    "category": "assistance",
-    "split": "push"
-  },
-  {
-    "name": "Incline EZ-bar Skullcrusher",
+    "name": "Decline EZ-bar Skullcrusher",
     "group": ["triceps"],
     "category": "assistance",
     "split": "push"
@@ -114,12 +90,6 @@
     "split": "pull"
   },
   {
-    "name": "Hammer Curls",
-    "group": ["biceps"],
-    "category": "assistance",
-    "split": "pull"
-  },
-  {
     "name": "EZ-bar Preacher Curl",
     "group": ["biceps"],
     "category": "assistance",
@@ -127,12 +97,6 @@
   },
   {
     "name": "Cable Curls",
-    "group": ["biceps"],
-    "category": "assistance",
-    "split": "pull"
-  },
-  {
-    "name": "Barbell Curl",
     "group": ["biceps"],
     "category": "assistance",
     "split": "pull"
@@ -156,31 +120,19 @@
     "split": "pull"
   },
   {
-    "name": "Gorilla Row",
-    "group": ["back", "biceps"],
-    "category": "assistance",
-    "split": "pull"
-  },
-  {
     "name": "Dumbbell Shrug",
     "group": ["back", "shoulders"],
     "category": "assistance",
     "split": "pull"
   },
   {
-    "name": "Wrist Curl",
+    "name": "Wrist Curl & Reverse Wrist Curl",
     "group": ["forearms"],
     "category": "assistance",
     "split": "pull"
   },
   {
-    "name": "Reverse Wrist Curl",
-    "group": ["forearms"],
-    "category": "assistance",
-    "split": "pull"
-  },
-  {
-    "name": "Reverse Barbell Curls",
+    "name": "Hammer Curls",
     "group": ["forearms", "biceps"],
     "category": "assistance",
     "split": "pull"
@@ -204,7 +156,7 @@
     "split": "legs"
   },
   {
-    "name": "Step-Ups",
+    "name": "Dumbbell Step-Ups",
     "group": ["quadriceps", "hamstrings"],
     "category": "assistance",
     "split": "legs"

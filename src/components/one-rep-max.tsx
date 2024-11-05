@@ -10,7 +10,7 @@ import {
 import exercises from "../exercises.json";
 
 function OneRepMax({ maxes, setMaxes }) {
-  const lifts = exercises.filter((exercise) => exercise.category === "lift");
+  const lifts = exercises.filter((exo) => exo.category === "lift");
   const handleChange = (value: string, lift: string) => {
     const updatedMaxes = {
       ...maxes,

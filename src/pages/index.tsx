@@ -1,6 +1,6 @@
 import { Box, Button, Flex } from "@chakra-ui/react";
 import Steps from "../components/stepper";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import OneRepMax from "../components/one-rep-max";
 import Assistance from "../components/assistance";
 import Program from "../components/program";

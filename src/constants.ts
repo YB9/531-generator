@@ -20,7 +20,7 @@ export const VALID_MUSCLE_GROUPS = [
   BACK,
   BICEPS,
   FOREARMS,
-  CALVES
+  CALVES,
 ];
 
 export const groupColors = {
@@ -32,6 +32,5 @@ export const groupColors = {
   [BACK]: "pink",
   [BICEPS]: "teal",
   [FOREARMS]: "orange",
-  [CALVES]: "cyan"
+  [CALVES]: "cyan",
 };
-    

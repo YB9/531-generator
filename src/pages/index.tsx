@@ -6,6 +6,7 @@ import Assistance from "../components/assistance";
 import Program from "../components/program";
 import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { BENCH, SQUAT, DEADLIFT, OHP, ROW } from "../constants";
+import exercises from "../exercises.json";
 
 const Index = () => {
   // step
@@ -27,6 +28,9 @@ const Index = () => {
   });
 
   // assistance
+  const [assistance, setAssistance] = useState(
+    exercises.filter((exo) => exo.category === "assistance")
+  );
 
   return (
     <Box h="100vh" px={"5%"} pt={"1%"}>
@@ -38,7 +42,9 @@ const Index = () => {
         borderRadius={5}
       >
         {step === 0 && <OneRepMax maxes={maxes} setMaxes={setMaxes} />}
-        {step === 1 && <Assistance />}
+        {step === 1 && (
+          <Assistance assistance={assistance} setAssistance={setAssistance} />
+        )}
         {step === 2 && <Program />}
       </Box>
       <Flex mt={5} justifyContent={"space-between"}>

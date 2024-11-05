@@ -18,20 +18,18 @@ import {
   ButtonGroup,
   Flex,
 } from "@chakra-ui/react";
-import exercises from "../exercises.json";
-import { useState } from "react";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 
 const SplitTable = ({
   assistance,
+  setAssistance,
   split,
   rows,
-  setAssistance,
 }: {
   assistance: any[];
+  setAssistance: any;
   split: string;
   rows: string[];
-  setAssistance: any;
 }) => {
   const getFilteredExos = (split: string, muscle: string) => {
     return assistance.filter(
@@ -79,7 +77,7 @@ const SplitTable = ({
                   {muscle.charAt(0).toUpperCase() + muscle.slice(1)}
                 </Td>
                 <Td>
-                  {getFilteredExos(split, muscle).map((exo) => (
+                  {getFilteredExos(split, muscle).map((exo, i) => (
                     <Editable
                       key={exo.name}
                       textAlign="center"
@@ -87,6 +85,15 @@ const SplitTable = ({
                       isPreviewFocusable={false}
                       display={"flex"}
                       flexDirection={"row"}
+                      onSubmit={(newVal) => {
+                        setAssistance((prevAssistance) =>
+                          prevAssistance.map((item) =>
+                            item.name === exo.name && item.split === split
+                              ? { ...item, name: newVal }
+                              : item
+                          )
+                        );
+                      }}
                     >
                       <EditableControls />
                       <EditablePreview />
@@ -103,23 +110,21 @@ const SplitTable = ({
   );
 };
 
-function Assistance() {
-  const [assistance, setAssistance] = useState(
-    exercises.filter((exo) => exo.category === "assistance")
-  );
-
+function Assistance({ assistance, setAssistance }) {
   return (
     <Box p={10}>
-      <Text px={5} py={2} mb={20} borderRadius={5} bgColor={"gray.100"}>
+      <Text px={5} py={2} mb={14} borderRadius={5} bgColor={"gray.100"}>
         Assistance exercises follow your main compound lifts and are organized
         into a five-day split: 2 Push days, 2 Pull days, and 1 Legs day.
         Typically, assistance exercises are performed in a 3x 8-12 rep range to
-        specifically target hypertrophy. Here is a pool of assistance exercises
-        you can plug-&-play but you can always customize the exercises directly
-        on the table to fit your needs.
+        specifically target hypertrophy. Here is a pool of balanced assistance
+        exercises you can plug-&-play but you can also customize the exercises
+        directly on the table. If you do change the program, keep in mind that
+        exercises often cross over between muscle groups so be careful not to
+        overwork any particular muscle group.
       </Text>
 
-      <SimpleGrid columns={3} spacing={20}>
+      <SimpleGrid columns={3} spacing={10}>
         <SplitTable
           assistance={assistance}
           setAssistance={setAssistance}

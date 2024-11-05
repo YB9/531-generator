@@ -41,7 +41,7 @@ function OneRepMax() {
             </Text>
             <InputGroup>
               <NumberInputField borderRadius={3} borderColor={"black"} />
-              <InputRightElement>{"lbs"}</InputRightElement>
+              <InputRightElement>lbs</InputRightElement>
             </InputGroup>
           </NumberInput>
         ))}
@@ -49,5 +49,5 @@ function OneRepMax() {
     </Box>
   );
 }
-
+// todo: kg conversion
 export default OneRepMax;

@@ -9,11 +9,14 @@ import {
 } from "@chakra-ui/react";
 import exercises from "../exercises.json";
 
-function OneRepMax() {
+function OneRepMax({ maxes, setMaxes }) {
   const lifts = exercises.filter((exercise) => exercise.category === "lift");
-
   const handleChange = (value: string, lift: string) => {
-    console.log(value, lift);
+    const updatedMaxes = {
+      ...maxes,
+      [lift]: Number(value),
+    };
+    setMaxes(updatedMaxes);
   };
 
   return (
@@ -34,6 +37,7 @@ function OneRepMax() {
           <NumberInput
             w={350}
             mx={"auto"}
+            defaultValue={maxes[lift.name]}
             onChange={(e) => handleChange(e, lift.name)}
           >
             <Text fontWeight={500} mb={2}>
@@ -49,5 +53,5 @@ function OneRepMax() {
     </Box>
   );
 }
-// todo: kg conversion
+
 export default OneRepMax;

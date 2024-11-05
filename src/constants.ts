@@ -1,6 +1,17 @@
+// types
 export type Split = "push" | "pull" | "legs";
 export type Category = "lift" | "assistance";
 
+// compound lifts
+export const BENCH = "Bench Press";
+export const SQUAT = "Squat";
+export const DEADLIFT = "Deadlift";
+export const OHP = "Overhead Press";
+export const ROW = "Barbell Row";
+
+export const LIFTS = [BENCH, SQUAT, DEADLIFT, OHP, ROW];
+
+// muscle groups
 export const CHEST = "chest";
 export const TRICEPS = "triceps";
 export const SHOULDERS = "shoulders";

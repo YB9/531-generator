@@ -1,15 +1,48 @@
-import { Badge, Box } from "@chakra-ui/react";
-import exercises from "../exercises.json";
-import { groupColors } from "../constants";
+import { Box, Button, Flex } from "@chakra-ui/react";
+import Steps from "../components/stepper";
+import { useState } from "react";
+import OneRepMax from "../components/one-rep-max";
+import Assistance from "../components/assistance";
+import Program from "../components/program";
+import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 
-const Index = () => (
-  <Box h="100vh">
-    {exercises.map((exercise) => (
-      <Badge key={exercise.name} colorScheme={groupColors[exercise.group[0]]} >
-      {exercise.name} - {exercise.group[0]}
-      </Badge>
-    ))}
-  </Box>
-);
+const Index = () => {
+  const [step, setStep] = useState(0);
+  const handleNextStep = () => {
+    setStep(Math.min(step + 1, 2));
+  };
+  const handlePrevStep = () => {
+    setStep(Math.max(step - 1, 0));
+  };
+
+  return (
+    <Box h="100vh" px={"5%"} pt={"1%"}>
+      <Steps step={step} />
+      <Box mt={5} h={"85%"} bgColor={"red.100"}>
+        {step === 0 && <OneRepMax />}
+        {step === 1 && <Assistance />}
+        {step === 2 && <Program />}
+      </Box>
+      <Flex mt={3} justifyContent={"space-between"}>
+        <Button
+          leftIcon={<ArrowBackIcon />}
+          colorScheme="blue"
+          w={200}
+          onClick={handlePrevStep}
+        >
+          BACK
+        </Button>
+        <Button
+          rightIcon={<ArrowForwardIcon />}
+          colorScheme="blue"
+          w={200}
+          onClick={handleNextStep}
+        >
+          NEXT
+        </Button>
+      </Flex>
+    </Box>
+  );
+};
 
 export default Index;

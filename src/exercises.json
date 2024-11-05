@@ -163,7 +163,7 @@
   },
   {
     "name": "Dumbbell Shrug",
-    "group": ["shoulders"],
+    "group": ["back", "shoulders"],
     "category": "assistance",
     "split": "pull"
   },

@@ -18,7 +18,7 @@ const Index = () => {
   return (
     <Box h="100vh" px={"5%"} pt={"1%"}>
       <Steps step={step} />
-      <Box mt={5} h={"85%"} bgColor={"red.100"}>
+      <Box mt={5} h={"85%"} bgColor={"blue.100"}>
         {step === 0 && <OneRepMax />}
         {step === 1 && <Assistance />}
         {step === 2 && <Program />}

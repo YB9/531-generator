@@ -45,7 +45,9 @@ const SplitTable = ({
           <Tbody>
             {rows.map((row) => (
               <Tr key={row}>
-                <Td>{row.charAt(0).toUpperCase() + row.slice(1)}</Td>
+                <Td fontWeight={500} fontSize={17}>
+                  {row.charAt(0).toUpperCase() + row.slice(1)}
+                </Td>
                 <Td>
                   {getFilteredExos(split, row).map((exo) => (
                     <Text key={exo.name}>{exo.name}</Text>

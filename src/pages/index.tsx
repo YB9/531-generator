@@ -24,22 +24,28 @@ const Index = () => {
         {step === 2 && <Program />}
       </Box>
       <Flex mt={3} justifyContent={"space-between"}>
-        <Button
-          leftIcon={<ArrowBackIcon />}
-          colorScheme="blue"
-          w={200}
-          onClick={handlePrevStep}
-        >
-          BACK
-        </Button>
-        <Button
-          rightIcon={<ArrowForwardIcon />}
-          colorScheme="blue"
-          w={200}
-          onClick={handleNextStep}
-        >
-          NEXT
-        </Button>
+        {step > 0 ? (
+          <Button
+            leftIcon={<ArrowBackIcon />}
+            colorScheme="blue"
+            w={200}
+            onClick={handlePrevStep}
+          >
+            BACK
+          </Button>
+        ) : (
+          <div></div>
+        )}
+        {step < 2 && (
+          <Button
+            rightIcon={<ArrowForwardIcon />}
+            colorScheme="blue"
+            w={200}
+            onClick={handleNextStep}
+          >
+            NEXT
+          </Button>
+        )}
       </Flex>
     </Box>
   );

@@ -5,6 +5,7 @@ import {
   InputRightElement,
   NumberInput,
   NumberInputField,
+  SimpleGrid,
   Text,
 } from "@chakra-ui/react";
 import exercises from "../exercises.json";
@@ -32,7 +33,7 @@ function OneRepMax({ maxes, setMaxes }) {
         for each lift in the program; any lift left blank will default to 0.
       </Text>
 
-      <Flex direction={"column"} gap={10}>
+      <SimpleGrid pt={10} columns={3} spacing={20}>
         {lifts.map((lift) => (
           <NumberInput
             w={350}
@@ -49,7 +50,7 @@ function OneRepMax({ maxes, setMaxes }) {
             </InputGroup>
           </NumberInput>
         ))}
-      </Flex>
+      </SimpleGrid>
     </Box>
   );
 }

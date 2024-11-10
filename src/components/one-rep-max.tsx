@@ -6,8 +6,13 @@ import {
   NumberInputField,
   SimpleGrid,
   Text,
+  Input,
+  Select,
+  useToast,
 } from "@chakra-ui/react";
 import exercises from "../exercises.json";
+import { useEffect, useState } from "react";
+import ORMCalculator from "./orm-calculator";
 
 function OneRepMax({ maxes, setMaxes }) {
   const lifts = exercises.filter((exo) => exo.category === "lift");
@@ -23,6 +28,38 @@ function OneRepMax({ maxes, setMaxes }) {
   const calc1RM = (reps: number, weight: number) => {
     return weight * (1 + 0.0333 * reps);
   };
+
+  // State for reps, weight, and calculated 1RM
+  const [reps, setReps] = useState(2);
+  const [weight, setWeight] = useState(0);
+  const [calculated1RM, setCalculated1RM] = useState(0);
+
+  const handleRepsChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setReps(Number(event.target.value));
+  };
+
+  const handleWeightChange = (value: string) => {
+    setWeight(Number(value));
+  };
+
+  // Copy the 1RM result to clipboard
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(`${calculated1RM} lbs`);
+    toast({
+      title: "Copied to clipboard",
+      description: `${calculated1RM} lbs`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+  };
+
+  // Update calculated 1RM when reps or weight changes
+  useEffect(() => {
+    setCalculated1RM(Math.round(calc1RM(reps, weight)));
+  }, [reps, weight]);
+
+  const toast = useToast();
 
   return (
     <Box p={10}>
@@ -61,7 +98,7 @@ function OneRepMax({ maxes, setMaxes }) {
             </InputGroup>
           </NumberInput>
         ))}
-        <Box mx={"auto"}>1RM Calculator</Box>
+        {/* <ORMCalculator /> */}
       </SimpleGrid>
     </Box>
   );

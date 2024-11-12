@@ -1,17 +1,14 @@
 import {
   Box,
+  Flex,
   InputGroup,
   InputRightElement,
   NumberInput,
   NumberInputField,
   SimpleGrid,
   Text,
-  Input,
-  Select,
-  useToast,
 } from "@chakra-ui/react";
 import exercises from "../exercises.json";
-import { useEffect, useState } from "react";
 import ORMCalculator from "./orm-calculator";
 
 function OneRepMax({ maxes, setMaxes }) {
@@ -24,42 +21,6 @@ function OneRepMax({ maxes, setMaxes }) {
     };
     setMaxes(updatedMaxes);
   };
-
-  const calc1RM = (reps: number, weight: number) => {
-    return weight * (1 + 0.0333 * reps);
-  };
-
-  // State for reps, weight, and calculated 1RM
-  const [reps, setReps] = useState(2);
-  const [weight, setWeight] = useState(0);
-  const [calculated1RM, setCalculated1RM] = useState(0);
-
-  const handleRepsChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setReps(Number(event.target.value));
-  };
-
-  const handleWeightChange = (value: string) => {
-    setWeight(Number(value));
-  };
-
-  // Copy the 1RM result to clipboard
-  const handleCopyToClipboard = () => {
-    navigator.clipboard.writeText(`${calculated1RM} lbs`);
-    toast({
-      title: "Copied to clipboard",
-      description: `${calculated1RM} lbs`,
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
-
-  // Update calculated 1RM when reps or weight changes
-  useEffect(() => {
-    setCalculated1RM(Math.round(calc1RM(reps, weight)));
-  }, [reps, weight]);
-
-  const toast = useToast();
 
   return (
     <Box p={10}>
@@ -75,31 +36,33 @@ function OneRepMax({ maxes, setMaxes }) {
         max. Note: Any Lift left blank will default to 0.
       </Text>
 
-      <SimpleGrid mt={5} p={20} columns={3} spacing={24}>
-        {lifts.map((lift) => (
-          <NumberInput
-            w={250}
-            mx={"auto"}
-            defaultValue={maxes[lift.name]}
-            onChange={(e) => handleChange(e, lift.name)}
-          >
-            <Text textAlign={"center"} fontWeight={500} mb={4}>
-              {lift.name}
-            </Text>
-            <InputGroup>
-              <NumberInputField
-                borderRadius={4}
-                maxLength={5}
-                pl={6}
-                borderColor={"black"}
-                bgColor={"rgba(255, 255, 255, 0.35)"}
-              />
-              <InputRightElement px={10}>lbs</InputRightElement>
-            </InputGroup>
-          </NumberInput>
-        ))}
-        {/* <ORMCalculator /> */}
-      </SimpleGrid>
+      <Flex dir="row" mt={5} pt={10} justifyContent={"space-evenly"} w={"95%"}>
+        <ORMCalculator />
+        <SimpleGrid columns={2} spacing={20} px={20}>
+          {lifts.map((lift) => (
+            <NumberInput
+              w={250}
+              mx={"auto"}
+              defaultValue={maxes[lift.name]}
+              onChange={(e) => handleChange(e, lift.name)}
+            >
+              <Text textAlign={"center"} fontWeight={500} mb={3}>
+                {lift.name}
+              </Text>
+              <InputGroup>
+                <NumberInputField
+                  borderRadius={4}
+                  maxLength={10}
+                  pl={6}
+                  borderColor={"black"}
+                  bgColor={"rgba(255, 255, 255, 0.35)"}
+                />
+                <InputRightElement px={10}>lbs</InputRightElement>
+              </InputGroup>
+            </NumberInput>
+          ))}
+        </SimpleGrid>
+      </Flex>
     </Box>
   );
 }

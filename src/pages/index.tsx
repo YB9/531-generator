@@ -4,7 +4,11 @@ import { useState } from "react";
 import OneRepMax from "../components/one-rep-max";
 import Assistance from "../components/assistance";
 import Program from "../components/program";
-import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
+import {
+  ArrowBackIcon,
+  ArrowForwardIcon,
+  DownloadIcon,
+} from "@chakra-ui/icons";
 import { BENCH, SQUAT, DEADLIFT, OHP, ROW } from "../constants";
 import exercises from "../exercises.json";
 
@@ -32,6 +36,14 @@ const Index = () => {
     exercises.filter((exo) => exo.category === "assistance")
   );
 
+  // program
+  const [months, setMonths] = useState(6);
+  const [assistanceType, setAssistanceType] = useState("random");
+
+  const handleGenerate = () => {
+    console.log("generate");
+  };
+
   return (
     <Box h="100vh" px={"5%"} pt={"1%"}>
       <Steps step={step} />
@@ -45,7 +57,15 @@ const Index = () => {
         {step === 1 && (
           <Assistance assistance={assistance} setAssistance={setAssistance} />
         )}
-        {step === 2 && <Program />}
+        {step === 2 && (
+          <Program
+            months={months}
+            setMonths={setMonths}
+            assistanceType={assistanceType}
+            setAssistanceType={setAssistanceType}
+            maxes={maxes}
+          />
+        )}
       </Box>
       <Flex mt={5} justifyContent={"space-between"}>
         {step > 0 ? (
@@ -68,6 +88,16 @@ const Index = () => {
             onClick={handleNextStep}
           >
             NEXT
+          </Button>
+        )}
+        {step === 2 && (
+          <Button
+            rightIcon={<DownloadIcon />}
+            colorScheme="blue"
+            w={200}
+            onClick={handleGenerate}
+          >
+            GENERATE
           </Button>
         )}
       </Flex>

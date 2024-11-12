@@ -19,13 +19,6 @@ function ORMCalculator() {
   const calc1RM = (reps: number, weight: number) => {
     return weight * (1 + 0.0333 * reps);
   };
-  const handleRepsChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setReps(Number(event.target.value));
-  };
-
-  const handleWeightChange = (value: string) => {
-    setWeight(Number(value));
-  };
 
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(`${calculated1RM} lbs`);
@@ -45,7 +38,7 @@ function ORMCalculator() {
   const toast = useToast();
 
   return (
-    <Box mx={"auto"} textAlign="center" p={5}>
+    <Box textAlign="center" p={5} pr={100} borderRight={"1px solid gray"}>
       <Text fontWeight={500} mb={4}>
         1RM Calculator
       </Text>
@@ -53,8 +46,9 @@ function ORMCalculator() {
       <InputGroup mb={4}>
         <Select
           value={reps}
-          onChange={handleRepsChange}
-          mx="auto"
+          onChange={(event) => {
+            setReps(Number(event.target.value));
+          }}
           borderColor={"black"}
           bgColor={"rgba(255, 255, 255, 0.35)"}
         >
@@ -63,26 +57,29 @@ function ORMCalculator() {
           <option value={4}>4</option>
           <option value={5}>5</option>
         </Select>
+        <InputRightElement pr={12}>reps</InputRightElement>
       </InputGroup>
 
       <InputGroup mb={4}>
         <NumberInput
           value={weight}
-          onChange={(value) => handleWeightChange(value)}
+          onChange={(value) => {
+            setWeight(Number(value));
+          }}
         >
           <NumberInputField
-            placeholder="Weight"
             borderRadius={4}
             borderColor={"black"}
             bgColor={"rgba(255, 255, 255, 0.35)"}
           />
         </NumberInput>
-        <InputRightElement px={10}>lbs</InputRightElement>
+        <InputRightElement pr={12}>lbs</InputRightElement>
       </InputGroup>
 
       <Input
         value={`${calculated1RM} lbs`}
         onClick={handleCopyToClipboard}
+        readOnly
         placeholder="Estimated 1RM"
         borderRadius={4}
         borderColor={"black"}

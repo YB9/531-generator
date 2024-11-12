@@ -36,12 +36,12 @@ export const VALID_MUSCLE_GROUPS = [
 
 export const groupColors = {
   [CHEST]: "red",
-  [TRICEPS]: "yellow",
-  [SHOULDERS]: "blue",
-  [QUADRICEPS]: "green",
-  [HAMSTRINGS]: "purple",
-  [BACK]: "pink",
-  [BICEPS]: "teal",
-  [FOREARMS]: "orange",
+  [TRICEPS]: "purple",
+  [SHOULDERS]: "orange",
+  [QUADRICEPS]: "yellow",
+  [HAMSTRINGS]: "blue",
+  [BACK]: "teal",
+  [BICEPS]: "green",
+  [FOREARMS]: "pink",
   [CALVES]: "cyan",
 };

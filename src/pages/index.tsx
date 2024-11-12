@@ -64,6 +64,7 @@ const Index = () => {
             assistanceType={assistanceType}
             setAssistanceType={setAssistanceType}
             maxes={maxes}
+            assistance={assistance}
           />
         )}
       </Box>

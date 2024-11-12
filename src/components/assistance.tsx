@@ -58,7 +58,7 @@ const SplitTable = ({
   }
 
   return (
-    <Box p={5} pb={10} bgColor={"rgba(255, 99, 71, 0.75)"} borderRadius={3}>
+    <Box p={5} pb={10} bgColor={"rgba(255, 99, 71, 0.6)"} borderRadius={3}>
       <Heading textAlign={"center"} fontFamily={"Times New Roman"} size="lg">
         {split.charAt(0).toUpperCase() + split.slice(1)}
       </Heading>

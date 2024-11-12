@@ -49,7 +49,7 @@
   },
   {
     "name": "Upright Row",
-    "group": ["shoulders"],
+    "group": ["shoulders", "back"],
     "category": "assistance",
     "split": "push"
   },
@@ -145,7 +145,7 @@
   },
   {
     "name": "Leg Press",
-    "group": ["quadriceps", "hamstrings"],
+    "group": ["quadriceps"],
     "category": "assistance",
     "split": "legs"
   },
@@ -157,7 +157,7 @@
   },
   {
     "name": "Dumbbell Step-Ups",
-    "group": ["quadriceps", "hamstrings"],
+    "group": ["quadriceps"],
     "category": "assistance",
     "split": "legs"
   },

@@ -1,7 +1,3 @@
-// types
-export type Split = "push" | "pull" | "legs";
-export type Category = "lift" | "assistance";
-
 // compound lifts
 export const BENCH = "Bench Press";
 export const SQUAT = "Squat";

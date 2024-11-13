@@ -42,6 +42,7 @@ function OneRepMax({ maxes, setMaxes }) {
           {lifts.map((lift) => (
             <NumberInput
               w={250}
+              key={lift.name}
               mx={"auto"}
               defaultValue={maxes[lift.name]}
               onChange={(e) => handleChange(e, lift.name)}

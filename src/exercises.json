@@ -3,31 +3,41 @@
     "name": "Bench Press",
     "group": ["chest", "triceps", "shoulders"],
     "category": "lift",
-    "split": "push"
+    "split": "push",
+    "overload": 10,
+    "deload": 5
   },
   {
     "name": "Squat",
     "group": ["quadriceps", "hamstrings"],
     "category": "lift",
-    "split": "legs"
+    "split": "legs",
+    "overload": 12.5,
+    "deload": 10
   },
   {
     "name": "Deadlift",
     "group": ["back", "hamstrings"],
     "category": "lift",
-    "split": "pull"
+    "split": "pull",
+    "overload": 15,
+    "deload": 10
   },
   {
     "name": "Overhead Press",
     "group": ["shoulders", "triceps"],
     "category": "lift",
-    "split": "push"
+    "split": "push",
+    "overload": 7.5,
+    "deload": 10
   },
   {
     "name": "Barbell Row",
     "group": ["back", "biceps"],
     "category": "lift",
-    "split": "pull"
+    "split": "pull",
+    "overload": 10,
+    "deload": 10
   },
   {
     "name": "Arnold Press",

@@ -37,7 +37,7 @@ const Index = () => {
   );
 
   // program
-  const [months, setMonths] = useState(6);
+  const [cycles, setCycles] = useState(6);
   const [assistanceType, setAssistanceType] = useState("random");
 
   const handleGenerate = () => {
@@ -59,8 +59,8 @@ const Index = () => {
         )}
         {step === 2 && (
           <Program
-            months={months}
-            setMonths={setMonths}
+            cycles={cycles}
+            setCycles={setCycles}
             assistanceType={assistanceType}
             setAssistanceType={setAssistanceType}
             maxes={maxes}

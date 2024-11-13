@@ -19,8 +19,8 @@ import { groupColors, VALID_MUSCLE_GROUPS } from "../constants";
 import { useEffect, useState } from "react";
 
 function Program({
-  months,
-  setMonths,
+  cycles,
+  setCycles,
   assistanceType,
   setAssistanceType,
   maxes,
@@ -39,7 +39,7 @@ function Program({
     return shuffled.slice(0, 3);
   };
   useEffect(() => {
-    const totalWeeks = (months / 3) * 13;
+    const totalWeeks = Math.ceil(cycles * 1.5);
     const result = [];
     for (let i = 0; i < totalWeeks; i++) {
       let weeklyExercises = [
@@ -52,7 +52,7 @@ function Program({
       result.push(...weeklyExercises);
     }
     setRandomizedExos(result);
-  }, [toggle, assistanceType, months]);
+  }, [toggle, assistanceType, cycles]);
 
   const getWeightedCount = (muscle) => {
     const SECONDARY_INC = 0.25;
@@ -85,7 +85,7 @@ function Program({
   };
 
   useEffect(() => {
-    const totalWeeks = (months / 3) * 13;
+    const totalWeeks = Math.ceil(cycles * 1.5);
     const result = [];
     for (let i = 0; i < totalWeeks; i++) {
       let weeklyExercises = [
@@ -98,14 +98,34 @@ function Program({
       result.push(...weeklyExercises);
     }
     setBalancedExos(result);
-  }, [months]);
+  }, [cycles]);
+
+  // 1RM final
+  const getFinalORM = (lift) => {
+    //--- todo extract
+    const projectedORMs = [maxes[lift.name]];
+    for (let i = 1; i <= cycles; i++) {
+      let prevORM = projectedORMs[projectedORMs.length - 1];
+      if (i % 5 === 0) {
+        projectedORMs.push(prevORM - lift.deload);
+      } else {
+        projectedORMs.push(prevORM + lift.overload);
+      }
+    }
+    //---
+    return (
+      Math.round(
+        (projectedORMs[projectedORMs.length - 1] + lift.overload) / 5
+      ) * 5
+    );
+  };
 
   return (
     <Box p={10}>
       <Text px={5} py={2} mb={5} borderRadius={5} bgColor={"gray.100"}>
-        This program is designed with a upper body focus and follows a
-        opinionated approach. It's designed for beginners to take full advantage
-        of the rapid gains that come in the early stages, so it's not
+        This program is designed with a 2:1 upper body focus and follows an
+        opinionated approach for men. It's designed for beginners to take full
+        advantage of the rapid gains that come in the early stages, so it's not
         recommended for advanced lifters. For best results, I suggest choosing
         the "random weighted" option to vary your weekly routine. Select the
         duration and see your projected 1RM by the end of the program.
@@ -115,17 +135,17 @@ function Program({
         <Box w={"50%"} px={10}>
           <InputGroup w={250}>
             <Select
-              value={months}
+              value={cycles}
               onChange={(event) => {
-                setMonths(Number(event.target.value));
+                setCycles(Number(event.target.value));
               }}
               borderColor={"black"}
               bgColor={"rgba(255, 255, 255, 0.35)"}
             >
-              <option value={3}>3</option>
-              <option value={6}>6</option>
-              <option value={9}>9</option>
-              <option value={12}>12</option>
+              <option value={9}>3</option>
+              <option value={18}>6</option>
+              <option value={26}>9</option>
+              <option value={35}>12</option>
             </Select>
             <InputRightElement pr={16}>months</InputRightElement>
           </InputGroup>
@@ -135,7 +155,9 @@ function Program({
               <Tr>
                 <Th>Lift</Th>
                 <Th>Initial 1RM</Th>
-                <Th textAlign={"center"}>After {months} Months</Th>
+                <Th textAlign={"center"}>
+                  After {Math.ceil(cycles / 3)} Months
+                </Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -143,7 +165,7 @@ function Program({
                 <Tr key={index}>
                   <Td>{lift.name}</Td>
                   <Td>{maxes[lift.name] || 0} lbs</Td>
-                  <Td textAlign={"center"}>{maxes[lift.name] * 2} lbs</Td>
+                  <Td textAlign={"center"}>{getFinalORM(lift)} lbs</Td>
                   {/* todo: 3 pace options on click select */}
                 </Tr>
               ))}

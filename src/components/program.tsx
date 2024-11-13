@@ -55,7 +55,7 @@ function Program({
   }, [toggle, assistanceType, months]);
 
   const getWeightedCount = (muscle) => {
-    const SECONDARY_INC = 0.35;
+    const SECONDARY_INC = 0.25;
     const count = randomizedExos.reduce((count, exo) => {
       exo.group.forEach((group, index) => {
         if (group === muscle) {

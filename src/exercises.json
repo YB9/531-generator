@@ -17,7 +17,7 @@
   },
   {
     "name": "Deadlift",
-    "group": ["back", "hamstrings"],
+    "group": ["back", "hamstrings", "forearms"],
     "category": "lift",
     "split": "pull",
     "overload": 15,
@@ -113,7 +113,7 @@
   },
   {
     "name": "Pullups",
-    "group": ["back", "biceps"],
+    "group": ["back", "biceps", "forearms"],
     "category": "assistance",
     "split": "pull"
   },

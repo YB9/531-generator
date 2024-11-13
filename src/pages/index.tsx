@@ -79,7 +79,7 @@ const Index = () => {
             BACK
           </Button>
         ) : (
-          <div></div>
+          <div />
         )}
         {step < 2 && (
           <Button

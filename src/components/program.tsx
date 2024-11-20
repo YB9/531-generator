@@ -189,12 +189,15 @@ function Program({
   return (
     <Box p={10}>
       <Text px={5} py={2} mb={5} borderRadius={5} bgColor={"gray.100"}>
-        This program is designed with a 2:1 upper body focus and follows an
-        opinionated approach for men. It's designed for beginners to take full
-        advantage of the rapid gains that come in the early stages, so it's not
-        recommended for advanced lifters. For best results, I suggest choosing
-        the "random weighted" option to vary your weekly routine. Select the
-        duration and see your projected 1RM by the end of the program.
+        The program is designed with a 2:1 upper body focus for beginners more
+        specifically for men looking to bulk. Choose the duration and see your
+        projected 1RM by the end of the program. For best results, you can
+        adjust the pace by clicking on the projected 1RM you prefer but keep in
+        mind that the program is designed to be challenging especially at the
+        beginning so try to stick to the recommended pace. I also suggest
+        choosing the "random weighted" option, which will diversify your weekly
+        routine. The assistance muscle spread is displayed in the pie chart but
+        if you prefer you can select the balanced approach.
       </Text>
 
       <Flex dir="row" justifyContent={"space-evenly"} p={10} ml={16}>

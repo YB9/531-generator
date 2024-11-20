@@ -47,10 +47,10 @@ const Index = () => {
   };
 
   return (
-    <Box h="100vh" px={"5%"} pt={"1%"}>
+    <Box h="100vh" px={"5%"} pt={"1.5%"}>
       <Steps step={step} />
       <Box
-        mt={5}
+        mt={8}
         h={"80%"}
         bgColor={"rgba(200, 230, 250, 0.8)"}
         borderRadius={5}

@@ -2,7 +2,7 @@
 
 ## What is this?
 
-This is my personal 531 program generator. It's the first personal project I tackled so I try to maintain it from time to time. I tried it once before and had great results. This project obviously doesn't support every single setup (haven't even tried it on mac) and the code is just thrown in there, but I tried to make sure the pdf output is consistent at least. Thanks for checking it out! Rest of this readme is AI generated
+This is my personal 531 program generator. It's the first personal project I tackled so I try to maintain it from time to time. I tried it once before and had great results. This project obviously doesn't support every single setup (haven't even tried it on mac) and the code is just thrown in there, but I tried to make sure the pdf output is consistent at least. Thanks for checking it out! Rest of the text is AI generated
 
 ## Overview
 

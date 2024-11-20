@@ -89,7 +89,7 @@ const SplitTable = ({
                         setAssistance((prevAssistance) =>
                           prevAssistance.map((item) =>
                             item.name === exo.name && item.split === split
-                              ? { ...item, name: newVal }
+                              ? { ...item, name: newVal || item.name }
                               : item
                           )
                         );

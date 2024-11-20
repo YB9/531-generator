@@ -67,7 +67,6 @@ const Index = () => {
             setAssistanceType={setAssistanceType}
             maxes={maxes}
             assistance={assistance}
-            program={program}
             setProgram={setProgram}
           />
         )}

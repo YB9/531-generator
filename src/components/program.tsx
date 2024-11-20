@@ -5,6 +5,7 @@ import {
   InputGroup,
   InputRightElement,
   Select,
+  SimpleGrid,
   Table,
   Tbody,
   Td,
@@ -33,6 +34,26 @@ const cyclesMap = {
   12: 35,
 };
 
+const OrmText = ({ value, onClick, isSelected = false }) => {
+  return (
+    <Text
+      cursor={"pointer"}
+      w={53}
+      onClick={onClick}
+      {...(isSelected && {
+        ml: -1,
+        py: 1,
+        mt: -1,
+        bgColor: "blue.200",
+        fontWeight: 500,
+        cursor: "default",
+      })}
+    >
+      {value}
+    </Text>
+  );
+};
+
 function Program({
   cycles,
   setCycles,
@@ -40,7 +61,6 @@ function Program({
   setAssistanceType,
   maxes,
   assistance,
-  program,
   setProgram,
 }) {
   const lifts = exercises.filter((exo) => exo.category === "lift");
@@ -50,6 +70,14 @@ function Program({
     [DEADLIFT]: [maxes[DEADLIFT]],
     [OHP]: [maxes[OHP]],
     [ROW]: [maxes[ROW]],
+  });
+
+  const [adjustedOrms, setAdjustedOrms] = useState({
+    [BENCH]: 1,
+    [SQUAT]: 1,
+    [DEADLIFT]: 1,
+    [OHP]: 1,
+    [ROW]: 1,
   });
 
   const pushExercises = assistance.filter((e) => e.split === "push");
@@ -130,7 +158,7 @@ function Program({
     const updatedOrms = { ...projectedOrms };
     lifts.forEach((lift) => {
       const initialORM = updatedOrms[lift.name][0] || 0;
-      const newArray = [initialORM];
+      const newArray = [initialORM * adjustedOrms[lift.name]];
       for (let i = 1; i <= cycles; i++) {
         const prevORM = newArray[newArray.length - 1];
         if (i % 5 === 0) {
@@ -142,12 +170,21 @@ function Program({
       updatedOrms[lift.name] = newArray;
     });
     setProjectedOrms(updatedOrms);
-  }, [cycles, maxes]);
+  }, [cycles, maxes, adjustedOrms]);
 
   // program
   useEffect(() => {
     // todo: generate program
+    // per week
   }, [projectedOrms, randomizedExos, balancedExos]);
+
+  const getFinal1RM = (lift, difficulty) => {
+    return (
+      Math.round(
+        ((projectedOrms[lift.name].at(-1) + lift.overload) * difficulty) / 5
+      ) * 5
+    );
+  };
 
   return (
     <Box p={10}>
@@ -201,12 +238,39 @@ function Program({
                   <Td>{lift.name}</Td>
                   <Td>{maxes[lift.name] || 0} lbs</Td>
                   <Td textAlign={"center"}>
-                    {Math.round(
-                      (projectedOrms[lift.name].at(-1) + lift.overload) / 5
-                    ) * 5}{" "}
-                    lbs
+                    <SimpleGrid columns={3}>
+                      <OrmText
+                        isSelected={adjustedOrms[lift.name] === 0.8}
+                        value={getFinal1RM(lift, 0.8)}
+                        onClick={() =>
+                          setAdjustedOrms({
+                            ...adjustedOrms,
+                            [lift.name]: 0.8,
+                          })
+                        }
+                      />
+                      <OrmText
+                        isSelected={adjustedOrms[lift.name] === 1}
+                        value={getFinal1RM(lift, 1)}
+                        onClick={() =>
+                          setAdjustedOrms({
+                            ...adjustedOrms,
+                            [lift.name]: 1,
+                          })
+                        }
+                      />
+                      <OrmText
+                        isSelected={adjustedOrms[lift.name] === 1.2}
+                        value={getFinal1RM(lift, 1.2)}
+                        onClick={() =>
+                          setAdjustedOrms({
+                            ...adjustedOrms,
+                            [lift.name]: 1.2,
+                          })
+                        }
+                      />
+                    </SimpleGrid>
                   </Td>
-                  {/* todo: 3 pace options on click select */}
                 </Tr>
               ))}
             </Tbody>

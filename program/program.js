@@ -63,7 +63,7 @@ function fillData() {
     var warmupArr = document.getElementsByClassName("warmup");
 
     for(var i = 0; i < warmupArr.length; i++){
-        document.getElementsByClassName("warmup")[i].innerHTML = "2min - <br> HI Treadmill" + "<br>" + "2x15 - <br>Box jumps";
+        document.getElementsByClassName("warmup")[i].innerHTML = "HI Treadmill <br> Box jumps";
     }    
 
     //fill Lifts

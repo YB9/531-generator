@@ -1,5 +1,9 @@
 # 5/3/1 Program Generator Tool for Beginners
 
+## What is this?
+
+This is my personal 531 program generator. It's the first personal project I tackled so I try to maintain it from time to time. I tried it once before and had great results. This project obviously doesn't support every single setup (haven't even tried it on mac) and the code is just thrown in there, but I tried to make sure the pdf output is consistent at least. Thanks for checking it out! Rest of this readme is AI generated
+
 ## Overview
 
 This tool generates a beginner-friendly 5/3/1 strength training program designed to help you reach the intermediate level in 6 months. By following a balanced, diversified, and intensive workout plan, you will progressively increase your strength in the main lifts: Squat, Deadlift, Bench Press, Overhead Press, and Rows.

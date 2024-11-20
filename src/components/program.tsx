@@ -15,8 +15,23 @@ import {
 } from "@chakra-ui/react";
 import exercises from "../exercises.json";
 import { PieChart } from "react-minimal-pie-chart";
-import { groupColors, VALID_MUSCLE_GROUPS } from "../constants";
+import {
+  BENCH,
+  DEADLIFT,
+  groupColors,
+  OHP,
+  ROW,
+  SQUAT,
+  VALID_MUSCLE_GROUPS,
+} from "../constants";
 import { useEffect, useState } from "react";
+
+const cyclesMap = {
+  3: 9,
+  6: 18,
+  9: 26,
+  12: 35,
+};
 
 function Program({
   cycles,
@@ -27,6 +42,14 @@ function Program({
   assistance,
 }) {
   const lifts = exercises.filter((exo) => exo.category === "lift");
+  const [projectedOrms, setProjectedOrms] = useState({
+    [BENCH]: [maxes[BENCH]],
+    [SQUAT]: [maxes[SQUAT]],
+    [DEADLIFT]: [maxes[DEADLIFT]],
+    [OHP]: [maxes[OHP]],
+    [ROW]: [maxes[ROW]],
+  });
+
   const pushExercises = assistance.filter((e) => e.split === "push");
   const pullExercises = assistance.filter((e) => e.split === "pull");
   const legExercises = assistance.filter((e) => e.split === "legs");
@@ -98,27 +121,26 @@ function Program({
       result.push(...weeklyExercises);
     }
     setBalancedExos(result);
-  }, [cycles]);
+  }, [assistanceType, cycles]);
 
-  // 1RM final
-  const getFinalORM = (lift) => {
-    //--- todo extract
-    const projectedORMs = [maxes[lift.name]];
-    for (let i = 1; i <= cycles; i++) {
-      let prevORM = projectedORMs[projectedORMs.length - 1];
-      if (i % 5 === 0) {
-        projectedORMs.push(prevORM - lift.deload);
-      } else {
-        projectedORMs.push(prevORM + lift.overload);
+  // 1RM projection
+  useEffect(() => {
+    const updatedOrms = { ...projectedOrms };
+    lifts.forEach((lift) => {
+      const initialORM = updatedOrms[lift.name][0] || 0;
+      const newArray = [initialORM];
+      for (let i = 1; i <= cycles; i++) {
+        const prevORM = newArray[newArray.length - 1];
+        if (i % 5 === 0) {
+          newArray.push(prevORM - lift.deload);
+        } else {
+          newArray.push(prevORM + lift.overload);
+        }
       }
-    }
-    //---
-    return (
-      Math.round(
-        (projectedORMs[projectedORMs.length - 1] + lift.overload) / 5
-      ) * 5
-    );
-  };
+      updatedOrms[lift.name] = newArray;
+    });
+    setProjectedOrms(updatedOrms);
+  }, [cycles, maxes]);
 
   return (
     <Box p={10}>
@@ -142,10 +164,10 @@ function Program({
               borderColor={"black"}
               bgColor={"rgba(255, 255, 255, 0.35)"}
             >
-              <option value={9}>3</option>
-              <option value={18}>6</option>
-              <option value={26}>9</option>
-              <option value={35}>12</option>
+              <option value={cyclesMap[3]}>3</option>
+              <option value={cyclesMap[6]}>6</option>
+              <option value={cyclesMap[9]}>9</option>
+              <option value={cyclesMap[12]}>12</option>
             </Select>
             <InputRightElement pr={16}>months</InputRightElement>
           </InputGroup>
@@ -156,7 +178,13 @@ function Program({
                 <Th>Lift</Th>
                 <Th>Initial 1RM</Th>
                 <Th textAlign={"center"}>
-                  After {Math.ceil(cycles / 3)} Months
+                  After
+                  {" " +
+                    Object.keys(cyclesMap).find(
+                      (key) => cyclesMap[key] === cycles
+                    ) +
+                    " "}
+                  Months
                 </Th>
               </Tr>
             </Thead>
@@ -165,7 +193,9 @@ function Program({
                 <Tr key={index}>
                   <Td>{lift.name}</Td>
                   <Td>{maxes[lift.name] || 0} lbs</Td>
-                  <Td textAlign={"center"}>{getFinalORM(lift)} lbs</Td>
+                  <Td textAlign={"center"}>
+                    {projectedOrms[lift.name].at(-1)} lbs
+                  </Td>
                   {/* todo: 3 pace options on click select */}
                 </Tr>
               ))}

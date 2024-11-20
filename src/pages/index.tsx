@@ -24,11 +24,11 @@ const Index = () => {
 
   // 1RM
   const [maxes, setMaxes] = useState({
-    [BENCH]: "",
-    [SQUAT]: "",
-    [DEADLIFT]: "",
-    [OHP]: "",
-    [ROW]: "",
+    [BENCH]: undefined,
+    [SQUAT]: undefined,
+    [DEADLIFT]: undefined,
+    [OHP]: undefined,
+    [ROW]: undefined,
   });
 
   // assistance
@@ -37,7 +37,7 @@ const Index = () => {
   );
 
   // program
-  const [cycles, setCycles] = useState(6);
+  const [cycles, setCycles] = useState(18);
   const [assistanceType, setAssistanceType] = useState("random");
 
   const handleGenerate = () => {

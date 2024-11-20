@@ -21,7 +21,7 @@
     "category": "lift",
     "split": "pull",
     "overload": 15,
-    "deload": 10
+    "deload": 15
   },
   {
     "name": "Overhead Press",
@@ -29,7 +29,7 @@
     "category": "lift",
     "split": "push",
     "overload": 7.5,
-    "deload": 10
+    "deload": 5
   },
   {
     "name": "Barbell Row",
@@ -136,7 +136,7 @@
     "split": "pull"
   },
   {
-    "name": "Two Way Wrist Curl",
+    "name": "Two-Way Wrist Curls",
     "group": ["forearms"],
     "category": "assistance",
     "split": "pull"

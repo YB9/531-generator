@@ -1,0 +1,204 @@
+[
+  {
+    "name": "Bench Press",
+    "group": ["chest", "triceps", "shoulders"],
+    "category": "lift",
+    "split": "push",
+    "overload": 10,
+    "deload": 5
+  },
+  {
+    "name": "Squat",
+    "group": ["quadriceps", "hamstrings"],
+    "category": "lift",
+    "split": "legs",
+    "overload": 12.5,
+    "deload": 10
+  },
+  {
+    "name": "Deadlift",
+    "group": ["back", "hamstrings", "forearms"],
+    "category": "lift",
+    "split": "pull",
+    "overload": 15,
+    "deload": 15
+  },
+  {
+    "name": "Overhead Press",
+    "group": ["shoulders", "triceps"],
+    "category": "lift",
+    "split": "push",
+    "overload": 7.5,
+    "deload": 5
+  },
+  {
+    "name": "Barbell Row",
+    "group": ["back", "biceps"],
+    "category": "lift",
+    "split": "pull",
+    "overload": 10,
+    "deload": 10
+  },
+  {
+    "name": "Arnold Press",
+    "group": ["shoulders", "triceps"],
+    "category": "assistance",
+    "split": "push"
+  },
+  {
+    "name": "Cable Lateral Raise",
+    "group": ["shoulders"],
+    "category": "assistance",
+    "split": "push"
+  },
+  {
+    "name": "Rear Delt Fly",
+    "group": ["shoulders"],
+    "category": "assistance",
+    "split": "push"
+  },
+  {
+    "name": "Upright Row",
+    "group": ["shoulders", "back"],
+    "category": "assistance",
+    "split": "push"
+  },
+  {
+    "name": "Dips",
+    "group": ["chest", "triceps"],
+    "category": "assistance",
+    "split": "push"
+  },
+  {
+    "name": "Incline Dumbbell Press",
+    "group": ["chest", "triceps"],
+    "category": "assistance",
+    "split": "push"
+  },
+  {
+    "name": "Cable Fly",
+    "group": ["chest"],
+    "category": "assistance",
+    "split": "push"
+  },
+  {
+    "name": "Cable Pushdown",
+    "group": ["triceps"],
+    "category": "assistance",
+    "split": "push"
+  },
+  {
+    "name": "Decline EZ-bar Skullcrusher",
+    "group": ["triceps"],
+    "category": "assistance",
+    "split": "push"
+  },
+  {
+    "name": "Chinups",
+    "group": ["biceps", "back"],
+    "category": "assistance",
+    "split": "pull"
+  },
+  {
+    "name": "EZ-bar Preacher Curl",
+    "group": ["biceps"],
+    "category": "assistance",
+    "split": "pull"
+  },
+  {
+    "name": "Cable Curls",
+    "group": ["biceps"],
+    "category": "assistance",
+    "split": "pull"
+  },
+  {
+    "name": "Pullups",
+    "group": ["back", "forearms"],
+    "category": "assistance",
+    "split": "pull"
+  },
+  {
+    "name": "Seated Cable Row",
+    "group": ["back", "biceps"],
+    "category": "assistance",
+    "split": "pull"
+  },
+  {
+    "name": "Cable Lat Pulldowns",
+    "group": ["back"],
+    "category": "assistance",
+    "split": "pull"
+  },
+  {
+    "name": "Dumbbell Shrug",
+    "group": ["back", "shoulders"],
+    "category": "assistance",
+    "split": "pull"
+  },
+  {
+    "name": "Two-Way Wrist Curls",
+    "group": ["forearms"],
+    "category": "assistance",
+    "split": "pull"
+  },
+  {
+    "name": "Hammer Curls",
+    "group": ["forearms", "biceps"],
+    "category": "assistance",
+    "split": "pull"
+  },
+  {
+    "name": "Lunges",
+    "group": ["quadriceps", "hamstrings"],
+    "category": "assistance",
+    "split": "legs"
+  },
+  {
+    "name": "Leg Press",
+    "group": ["quadriceps"],
+    "category": "assistance",
+    "split": "legs"
+  },
+  {
+    "name": "Hack Squat",
+    "group": ["quadriceps", "hamstrings"],
+    "category": "assistance",
+    "split": "legs"
+  },
+  {
+    "name": "Dumbbell Step-Ups",
+    "group": ["quadriceps"],
+    "category": "assistance",
+    "split": "legs"
+  },
+  {
+    "name": "Laying Leg Curl",
+    "group": ["hamstrings"],
+    "category": "assistance",
+    "split": "legs"
+  },
+  {
+    "name": "Seated Leg Curls",
+    "group": ["hamstrings"],
+    "category": "assistance",
+    "split": "legs"
+  },
+  {
+    "name": "Kettlebell Swing",
+    "group": ["hamstrings", "back"],
+    "category": "assistance",
+    "split": "legs"
+  },
+  {
+    "name": "Calf Raises",
+    "group": ["calves"],
+    "category": "assistance",
+    "split": "legs"
+  },
+  {
+    "name": "Calf Press",
+    "group": ["calves"],
+    "category": "assistance",
+    "split": "legs"
+  }
+]

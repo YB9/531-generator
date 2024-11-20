@@ -1,23 +1,53 @@
-# 531-generator
+# 5/3/1 Program Generator Tool for Beginners
 
-Generate a 6 month printable custom 531 program based on user One rep maxes.
+## What is this?
 
-Easy-to-print format directly from browser. 
-Linear progression with deloads. 
-Randomly selected assistance exercices to diversify sessions.
+This is my personal 531 program generator. It's the first personal project I tackled so I try to maintain it from time to time. I tried it once before and had great results. This project obviously doesn't support every single setup (haven't even tried it on mac) and the code is just thrown in there, but I tried to make sure the pdf output is consistent at least. Thanks for checking it out! Rest of the text is AI generated
 
-To get started, you'll need the One Rep Max (1RM) for the five compound exercices that are at the core of this program. To get your 1RMs, do the following steps:
+## Overview
 
-For each of the main lifts, work up to a weight that you are only able to complete 3-5 reps of with 
-good bar speed and control. Then, put the weight and reps you got into this <a href="http://www.exrx.net/Calculators/OneRepMax.html"> One Rep Max calculator.</a> It will give you your 1RMs. Put the resulting 1RM for each of the five lifts in the input fields below and your program will be automatically generated.
+This tool generates a beginner-friendly 5/3/1 strength training program designed to help you reach the intermediate level in 6 months. By following a balanced, diversified, and intensive workout plan, you will progressively increase your strength in the main lifts: Squat, Deadlift, Bench Press, Overhead Press, and Rows.
 
-Notes & Tips : 
-  <ul>
-    <li> The program is in pounds (lb). </li>
-    <li> Warmup isn't included in the program but a light one (around 5min) is recommended. </li>
-    <li> Go at your own pace but try to keep the intensity high! I recommend never going over one hour per day at the gym for beginners. </li>
-    <li> Legend : OHP = Overhead Press; BB = Barbell; DB = Dumbell. </li>
-    <li> Feel free to customize the assitance work, it doesn't matter as much as the lifts. </li>
-    <li> The print format functionality was tested on chrome, it may not work on other browsers. </li>
-    <li> Select the "remove background graphics" options from the google chrome print screen so you save on ink if printing it. </li>
-  </ul> 
+The 5/3/1 method focuses on systematic progression, periodization, and provides clear cycles to ensure steady progress. This tool will customize the program for you based on your starting max lifts and the number of cycles you want to complete.
+
+## Key Features
+
+- **Beginner-Friendly**: Tailored for those starting with strength training.
+- **Balanced & Diversified**: Ensures every major lift gets worked on with proper variation, balancing intensity and volume.
+- **Six-Month Plan**: Designed to bring you from a beginner to the intermediate level in 6 months.
+- **Customizable**: Input your current maxes, and the tool will generate a personalized 5/3/1 training schedule for your lifts.
+- **Automated Progression**: Automatically adjusts your progression each cycle, including overload and deload weeks, to optimize strength gains while preventing burnout.
+
+## Program Breakdown
+
+The program is based on the **5/3/1 strength training philosophy** by Jim Wendler, which is structured into cycles:
+
+- **5 reps Week**: 65%, 75%, 85% of your max
+- **3 reps Week**: 70%, 80%, 90% of your max
+- **531 reps Week**: 75%, 85%, 95% of your max
+- **Deload Week**
+
+### The program includes:
+
+- Overload (adding weight each cycle)
+- Deload (reducing the load every fourth week)
+- Specific rep schemes to ensure proper progression
+
+## Getting Started
+
+### Requirements
+
+- A basic understanding of the 5/3/1 program
+- Initial 1RM (one-rep max) estimates for each of the main lifts (Squat, Deadlift, Bench Press, Overhead Press, Rows)
+- Cycles input (3-12 months)
+
+### Instructions
+
+1. **Enter your starting maxes** for the following lifts:
+   - Squat
+   - Deadlift
+   - Bench Press
+   - Overhead Press
+   - Rows
+2. **Customize your assistance** or just keep the suggested ones
+3. **Input the duration** you’d like to complete (typically 6 months).

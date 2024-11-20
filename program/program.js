@@ -47,11 +47,11 @@ var cycleBBRow = 1;
 var counterBarbellRow = 0;
 
 // Assistance options
-var push = ["Dips", "DB OHP", "Pushdown", "Pushups", "Lateral Raises", "Triceps Extension", "Incline DB Press",
-	    "Cable Raise", "Close-grip Press"];
-var pull = ["Pullups", "Chinups", "Wrist Curl", "Lat Pulldowns", "BB Curls", "Inverted Row", 
-	    "Preacher Curl", "Seated Cable Row", "Cable Curls", "Face Pulls", "Reverse Curls"];	
-var leg = ["Laying Leg Curl", "Lunges", "Kettlebell Swings", "Machine Calf Raise", "Leg Push"];
+var push = ["Dips", "Arnold Press", "Pushdown", "Pushups", "Lateral Raises", "Triceps Extension", "Incline DB Press",
+	    "Cable Raise", "Close-grip BB Press"];
+var pull = ["Pullups", "Chinups", "Hammer curls", "Lat Pulldowns", "BB Curls", "Inverted Row", 
+	    "Preacher Curl", "Seated Cable Row", "Cable Curls", "DB Bench Row", "Reverse Curls"];	
+var leg = ["Laying Leg Curl", "Lunges", "DB Squats", "Machine Calf Raise", "Leg Push"];
 
 var pushCounter = 0;
 var pullCounter = 0;
@@ -63,7 +63,7 @@ function fillData() {
     var warmupArr = document.getElementsByClassName("warmup");
 
     for(var i = 0; i < warmupArr.length; i++){
-        document.getElementsByClassName("warmup")[i].innerHTML = "3min - <br>Treadmill" + "<br>" + "3x15 - <br>Box jumps";
+        document.getElementsByClassName("warmup")[i].innerHTML = "2min - <br> HI Treadmill" + "<br>" + "2x15 - <br>Box jumps";
     }    
 
     //fill Lifts
@@ -92,11 +92,29 @@ function fillData() {
 
     //fill assistance
     var assistanceArr = document.getElementsByClassName("assistance");
-
-
-    for(var i = 0; i < assistanceArr.length; i++){
-        document.getElementsByClassName("assistance")[i].innerHTML = "4x15 - " + generateRandomAssist("push") + "<br> 4x15 - " +
-        generateRandomAssist("pull") + "<br> 4x15 - " + generateRandomAssist("leg");
+	
+    for(var i = 0; i < assistanceArr.length; i+=5){
+	    
+        //PUSH 1	
+		document.getElementsByClassName("assistance")[i].innerHTML = "PUSH<br> 3x8-12 - " + generateRandomAssist("push") + "<br> 3x8-12 - " +
+        generateRandomAssist("push") + "<br> 3x8-12 - " + generateRandomAssist("push");
+		
+		//PULL1
+        document.getElementsByClassName("assistance")[i+1].innerHTML = "PULL<br> 3x8-12 - " + generateRandomAssist("pull") + "<br> 3x8-12 - " +
+        generateRandomAssist("pull") + "<br> 3x8-12 - " + generateRandomAssist("pull");
+		
+		//LEGS
+        document.getElementsByClassName("assistance")[i+2].innerHTML = "LEGS<br> 3x8-12 - " + generateRandomAssist("leg") + "<br> 3x8-12 - " +
+        generateRandomAssist("leg") + "<br> 3x8-12 - " + generateRandomAssist("leg");
+	    
+		//PUSH2
+	    document.getElementsByClassName("assistance")[i+3].innerHTML = "PUSH<br> 3x8-12 - " + generateRandomAssist("push") + "<br> 3x8-12 - " +
+        generateRandomAssist("push") + "<br> 3x8-12 - " + generateRandomAssist("push");
+		
+		//PULL2
+        document.getElementsByClassName("assistance")[i+4].innerHTML = "PULL<br> 3x8-12 - " + generateRandomAssist("pull") + "<br> 3x8-12 - " +
+        generateRandomAssist("pull") + "<br> 3x8-12 - " + generateRandomAssist("pull");
+		
     }
 
 }
@@ -122,7 +140,7 @@ function fillLifts(lift){
             result += "1x5+ - ";
             result +=  round5(Bench555[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result +=  round5(Bench555[0]).toString() + " lb";
             counterBench++;
         }        
@@ -137,7 +155,7 @@ function fillLifts(lift){
             result += "1x3+ - ";
             result +=  round5(Bench333[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result +=  round5(Bench333[0]).toString() + " lb";
             counterBench++
         }      
@@ -152,7 +170,7 @@ function fillLifts(lift){
             result += "1x1+ - ";
             result +=  round5(Bench531[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result +=  round5(Bench531[0]).toString() + " lb";            
             nextCycle(lift);
         } 
@@ -174,7 +192,7 @@ function fillLifts(lift){
             result += "1x5+ - ";
             result +=  round5(Squat555[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result +=  round5(Squat555[0]).toString() + " lb";
             counterSquat++;
         }        
@@ -189,7 +207,7 @@ function fillLifts(lift){
             result += "1x3+ - ";
             result +=  round5(Squat333[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result +=  round5(Squat333[0]).toString() + " lb";
             counterSquat++
         }      
@@ -204,7 +222,7 @@ function fillLifts(lift){
             result += "1x1+ - ";
             result += round5(Squat531[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result += round5(Squat531[0]).toString() + " lb";            
             nextCycle(lift);
         }
@@ -226,7 +244,7 @@ function fillLifts(lift){
             result += "1x5+ - ";
             result += round5(Deadlift555[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result += round5(Deadlift555[0]).toString() + " lb";
             counterDeadlift++;
         }        
@@ -241,7 +259,7 @@ function fillLifts(lift){
             result += "1x3+ - ";
             result += round5(Deadlift333[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result += round5(Deadlift333[0]).toString() + " lb";
             counterDeadlift++
         }      
@@ -256,7 +274,7 @@ function fillLifts(lift){
             result += "1x1+ - ";
             result += round5(Deadlift531[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result += round5(Deadlift531[0]).toString() + " lb";            
             nextCycle(lift);
         }
@@ -278,7 +296,7 @@ function fillLifts(lift){
             result += "1x5+ - ";
             result += round5(OverheadPress555[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result += round5(OverheadPress555[0]).toString() + " lb";
             counterOverheadPress++;
         }        
@@ -293,7 +311,7 @@ function fillLifts(lift){
             result += "1x3+ - ";
             result += round5(OverheadPress333[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result += round5(OverheadPress333[0]).toString() + " lb";
             counterOverheadPress++
         }      
@@ -308,7 +326,7 @@ function fillLifts(lift){
             result += "1x1+ - ";
             result += round5(OverheadPress531[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result += round5(OverheadPress531[0]).toString() + " lb";            
             nextCycle(lift);
         }
@@ -330,7 +348,7 @@ function fillLifts(lift){
             result += "1x5+ - ";
             result += round5(BarbellRow555[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result += round5(BarbellRow555[0]).toString() + " lb";
             counterBarbellRow++;
         }        
@@ -345,7 +363,7 @@ function fillLifts(lift){
             result += "1x3+ - ";
             result += round5(BarbellRow333[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result += round5(BarbellRow333[0]).toString() + " lb";
             counterBarbellRow++
         }      
@@ -360,7 +378,7 @@ function fillLifts(lift){
             result += "1x1+ - ";
             result += round5(BarbellRow531[2]).toString() + " lb";
             result += "<br>";
-            result += "1x5   - ";
+            result += "1x5+   - ";
             result += round5(BarbellRow531[0]).toString() + " lb";            
             nextCycle(lift);
         }
@@ -374,15 +392,16 @@ function round5(x){
     return Math.round(x/5)*5;
 }
 
+//Note: 1 cycle = 1.5 week
 function nextCycle(lift){
 
     if(lift === "bench"){
         if(cycleBench === 5){
-            Bench  = parseInt(Bench) - 10;
+            Bench  = parseInt(Bench) - 5;
             cycleBench = 0;
         }
         else{
-            Bench = parseInt(Bench) + 5;
+            Bench = parseInt(Bench) + 10;
         }        
         BenchWarmup = Bench * 0.25;
         Bench555 = [Bench * 0.65, Bench * 0.75, Bench * 0.85];
@@ -394,11 +413,11 @@ function nextCycle(lift){
     }
     else if(lift === "squat"){
         if(cycleSquat === 5){
-            Squat  = parseInt(Squat) - 20;
+            Squat  = parseInt(Squat) - 10;
             cycleSquat = 0;
         }
         else{
-            Squat = parseInt(Squat) + 10;
+            Squat = parseInt(Squat) + 15;
         }
     
         SquatWarmup = Squat * 0.25;
@@ -411,11 +430,11 @@ function nextCycle(lift){
     }
     else if(lift === "deadlift"){
         if(cycleDeadlift === 5){
-            Deadlift  = parseInt(Deadlift) - 20;
+            Deadlift  = parseInt(Deadlift) - 7.5;
             cycleDeadlift = 0;
         }
         else{
-            Deadlift = parseInt(Deadlift) + 10;
+            Deadlift = parseInt(Deadlift) + 15;
         }
     
         DeadliftWarmup = Deadlift * 0.25;
@@ -428,11 +447,11 @@ function nextCycle(lift){
     }
     else if(lift === "overheadPress"){
         if(cycleOHP === 5){
-            OverheadPress  = parseInt(OverheadPress) - 10;
+            OverheadPress  = parseInt(OverheadPress) - 5;
             cycleOHP = 0;
         }
         else{
-            OverheadPress = parseInt(OverheadPress) + 5;
+            OverheadPress = parseInt(OverheadPress) + 7.5;
         }
     
         OverheadPressWarmup = OverheadPress * 0.25;
@@ -446,11 +465,11 @@ function nextCycle(lift){
     }
     else if(lift === "barbellRow"){
         if(cycleBBRow === 5){
-            BarbellRow  = parseInt(BarbellRow) - 10;
+            BarbellRow  = parseInt(BarbellRow) - 5;
             cycleBBRow = 0;
         }
         else{
-            BarbellRow = parseInt(BarbellRow) + 5;
+            BarbellRow = parseInt(BarbellRow) + 10;
         }
     
         BarbellRowWarmup = BarbellRow * 0.25;

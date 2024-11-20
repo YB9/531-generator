@@ -42,10 +42,6 @@ const Index = () => {
   const [assistanceType, setAssistanceType] = useState("random");
   const [program, setProgram] = useState();
 
-  const handleGenerate = () => {
-    console.log("generate");
-  };
-
   return (
     <Box h="100vh" px={"5%"} pt={"1.5%"}>
       <Steps step={step} />

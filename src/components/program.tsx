@@ -40,6 +40,8 @@ function Program({
   setAssistanceType,
   maxes,
   assistance,
+  program,
+  setProgram,
 }) {
   const lifts = exercises.filter((exo) => exo.category === "lift");
   const [projectedOrms, setProjectedOrms] = useState({
@@ -142,6 +144,11 @@ function Program({
     setProjectedOrms(updatedOrms);
   }, [cycles, maxes]);
 
+  // program
+  useEffect(() => {
+    // todo: generate program
+  }, [projectedOrms, randomizedExos, balancedExos]);
+
   return (
     <Box p={10}>
       <Text px={5} py={2} mb={5} borderRadius={5} bgColor={"gray.100"}>
@@ -194,7 +201,10 @@ function Program({
                   <Td>{lift.name}</Td>
                   <Td>{maxes[lift.name] || 0} lbs</Td>
                   <Td textAlign={"center"}>
-                    {projectedOrms[lift.name].at(-1)} lbs
+                    {Math.round(
+                      (projectedOrms[lift.name].at(-1) + lift.overload) / 5
+                    ) * 5}{" "}
+                    lbs
                   </Td>
                   {/* todo: 3 pace options on click select */}
                 </Tr>

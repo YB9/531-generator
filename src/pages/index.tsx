@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/icons";
 import { BENCH, SQUAT, DEADLIFT, OHP, ROW } from "../constants";
 import exercises from "../exercises.json";
+import GeneratePdfBtn from "../components/gen-pdf";
 
 const Index = () => {
   // step
@@ -39,6 +40,7 @@ const Index = () => {
   // program
   const [cycles, setCycles] = useState(18);
   const [assistanceType, setAssistanceType] = useState("random");
+  const [program, setProgram] = useState();
 
   const handleGenerate = () => {
     console.log("generate");
@@ -65,6 +67,8 @@ const Index = () => {
             setAssistanceType={setAssistanceType}
             maxes={maxes}
             assistance={assistance}
+            program={program}
+            setProgram={setProgram}
           />
         )}
       </Box>
@@ -91,16 +95,7 @@ const Index = () => {
             NEXT
           </Button>
         )}
-        {step === 2 && (
-          <Button
-            rightIcon={<DownloadIcon />}
-            colorScheme="blue"
-            w={200}
-            onClick={handleGenerate}
-          >
-            GENERATE
-          </Button>
-        )}
+        {step === 2 && <GeneratePdfBtn program={program} />}
       </Flex>
     </Box>
   );

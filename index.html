@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+ <html lang="en">
+    <head> 
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" href="./gym.css">
+        <script src="gym.js"></script>
+        <title> Custom 6 months 5/3/1 Program Generator </title>
+    </head> 
+
+<body> 
+    <div id="explication">
+        <h1> The Custom 6 months 5/3/1 Program Generator </h1>
+        <h4> Total of 12 pages in easy-to-print format. Steady progress with deloads included. 
+            Different assistance work every time to diversify sessions. </h4>
+        <h4> Simple and effective : <br> <br>
+        1. Enter your five Maxes in the input fields below. <br>
+        2. Press the button to generate your custom program. <br>
+        3. Print your new program directly from your browser. 
+    </h4>
+        <p> This 6 months program is ideal for people who recently started the gym 
+            or are coming back to the game and are lost as to what to do. To get started, you'll need the 
+            One Rep Max for the five main compound exercices that are the core of this program.
+            For each of the main lifts, work up to a weight that you are only able to complete 3-5 reps of with 
+            good bar speed. Then, Plug the weight in and reps into this 
+            <a href="http://www.exrx.net/Calculators/OneRepMax.html">One Rep Max calculator.</a> Then, put the 
+            resulting One Rep Max for each of the main lifts in the input fields below and your program 
+            will be automatically generated.</p> 
+
+        <p> Notes : <ul>
+                <li> Rest time between sets should be betwenn 1min - 2min, depending on how much you need. </li>
+                <li> Your workout should be 1 hour +/- 15min. There's no point to workout longer. </li>
+                <li> It's recommended to do the assistance work in supersets, but it's not essential. </li>
+                <li> The whole program is in pounds (lb). </li>
+                <li> Legend used in the program : OHP = Overhead Press; BB = Barbell; DB = Dumbell. </li>
+            </ul> 
+         </p>
+
+    </div>
+    
+    <br>
+
+    <div id="data">
+        <h2> Enter your One Rep Max here : </h2>
+
+        <div class="ORM">
+            <h3> Bench </h3>
+            <input id="bench" placeholder="lb">
+        </div>  
+
+        <div class="ORM">
+            <h3> Squat </h3>
+            <input id="squat" placeholder="lb">
+        </div>
+
+        <div class="ORM">
+            <h3> Deadlift </h3>
+            <input id="deadlift" placeholder="lb">
+        </div>
+
+        <div class="ORM">
+            <h3> Overhead Press </h3>
+            <input id="overheadpress" placeholder="lb">
+        </div>
+
+        <div class="ORM">
+            <h3> Barbell Row </h3>
+            <input id="barbellrow" placeholder="lb">
+        </div>
+
+        <br> <br>
+
+        <div>
+            <a href="./program/program.html">
+                <button type="button" class="btn btn-primary" onclick="showProgram()"> Show Program ! </button>   </a>     </div>
+     </div>
+     
+     <br> <br>
+  
+     <div>
+      <p> By Yassine Belkacemi. Code available here : <a href="https://github.com/CakeNoFake/531-generator"> GitHub. </a> </p>
+     </div>
+
+</body> 
+</html>

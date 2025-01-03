@@ -47,19 +47,19 @@ const SplitTable = ({
 
     return isEditing ? (
       <ButtonGroup justifyContent="center" size="sm">
-        <CheckIcon boxSize={3} mr={3} my={"auto"} {...getSubmitButtonProps()} />
-        <CloseIcon boxSize={3} mr={3} my={"auto"} {...getCancelButtonProps()} />
+        <CheckIcon boxSize={3} mr={2} my={"auto"} {...getSubmitButtonProps()} />
+        <CloseIcon boxSize={3} mr={2} my={"auto"} {...getCancelButtonProps()} />
       </ButtonGroup>
     ) : (
       <Flex justifyContent="center">
-        <EditIcon boxSize={3} mr={3} my={"auto"} {...getEditButtonProps()} />{" "}
+        <EditIcon boxSize={3} mr={2} my={"auto"} {...getEditButtonProps()} />{" "}
       </Flex>
     );
   }
 
   return (
-    <Box p={5} pb={10} bgColor={"rgba(255, 99, 71, 0.6)"} borderRadius={3}>
-      <Heading textAlign={"center"} fontFamily={"Times New Roman"} size="lg">
+    <Box bgColor={"rgba(250, 100, 70, 0.5)"} borderRadius={3}>
+      <Heading pl={"13%"} position={"absolute"} fontFamily={"Times New Roman"} fontSize={18}>
         {split.charAt(0).toUpperCase() + split.slice(1)}
       </Heading>
       <TableContainer>
@@ -73,7 +73,7 @@ const SplitTable = ({
           <Tbody>
             {rows.map((muscle) => (
               <Tr key={muscle}>
-                <Td fontWeight={500} fontSize={17}>
+                <Td fontWeight={600} fontSize={14}>
                   {muscle.charAt(0).toUpperCase() + muscle.slice(1)}
                 </Td>
                 <Td>
@@ -97,7 +97,7 @@ const SplitTable = ({
                     >
                       <EditableControls />
                       <EditablePreview />
-                      <Input as={EditableInput} size={"sm"} />
+                      <Input as={EditableInput} fontSize={12} h={6} />
                     </Editable>
                   ))}
                 </Td>
@@ -112,19 +112,16 @@ const SplitTable = ({
 
 function Assistance({ assistance, setAssistance }) {
   return (
-    <Box p={10}>
-      <Text px={5} py={2} mb={14} borderRadius={5} bgColor={"gray.100"}>
+    <Box p={10} pb={12}>
+      <Text px={5} py={2} mb={5} borderRadius={5} bgColor={"gray.100"}>
         Assistance exercises follow your main compound lifts and are organized
         into a five-day split: 2 Push days, 2 Pull days, and 1 Legs day.
         Typically, assistance exercises are performed in a 3x 8-12 rep range to
         specifically target hypertrophy. Here is a pool of balanced assistance
-        exercises you can plug-&-play but you can also customize the exercises
-        directly on the table. If you do change the program, keep in mind that
-        exercises often cross over between muscle groups so be careful not to
-        overwork any particular muscle group.
+        exercises you can plug-&-play or customize to your liking.
       </Text>
 
-      <SimpleGrid columns={3} spacing={10}>
+      <SimpleGrid columns={3} spacing={5}>
         <SplitTable
           assistance={assistance}
           setAssistance={setAssistance}

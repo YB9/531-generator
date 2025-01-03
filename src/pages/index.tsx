@@ -47,7 +47,6 @@ const Index = () => {
       <Steps step={step} />
       <Box
         mt={8}
-        h={"80%"}
         bgColor={"rgba(200, 230, 250, 0.8)"}
         borderRadius={5}
       >

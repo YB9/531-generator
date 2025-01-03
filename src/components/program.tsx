@@ -187,22 +187,17 @@ function Program({
   };
 
   return (
-    <Box p={10}>
-      <Text px={5} py={2} mb={5} borderRadius={5} bgColor={"gray.100"}>
-        The program is designed with a 2:1 upper body focus for beginners more
-        specifically for men looking to bulk. Choose the duration and see your
-        projected 1RM by the end of the program. For best results, you can
-        adjust the pace by clicking on the projected 1RM you prefer but keep in
-        mind that the program is designed to be challenging especially at the
-        beginning so try to stick to the recommended pace. I also suggest
-        choosing the "random weighted" option, which will diversify your weekly
-        routine. The assistance muscle spread is displayed in the pie chart but
-        if you prefer you can select the balanced approach.
+    <Box p={10} pb={0}>
+      <Text px={5} py={2} mb={2} borderRadius={5} bgColor={"gray.100"}>
+        The program is designed with a 2:1 upper body focus for beginners and
+        specifically for men looking to bulk. Pick the duration, select between
+        the 3 paces and choose an assistance distribution to customize your program. 
+        Generate the pdf and start lifting, good luck!
       </Text>
 
-      <Flex dir="row" justifyContent={"space-evenly"} p={10} ml={16}>
-        <Box w={"50%"} px={10}>
-          <InputGroup w={250}>
+      <Flex dir="row" justifyContent={"space-evenly"} p={5}>
+        <Box w={"50%"} px={5}>
+          <InputGroup w={200}>
             <Select
               value={cycles}
               onChange={(event) => {
@@ -219,7 +214,7 @@ function Program({
             <InputRightElement pr={16}>months</InputRightElement>
           </InputGroup>
 
-          <Table variant="simple" mt={12}>
+          <Table variant="simple" mt={8}>
             <Thead>
               <Tr>
                 <Th>Lift</Th>
@@ -304,7 +299,7 @@ function Program({
             {assistanceType === "random" ? "Re-randomize" : ""}
           </Button>
 
-          <Box boxSize={80} mx={"auto"} mt={30}>
+          <Box boxSize={72} mx={"auto"} mt={25}>
             <PieChart
               style={{ opacity: 0.9 }}
               data={VALID_MUSCLE_GROUPS.map((muscle) => {

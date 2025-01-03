@@ -23,25 +23,21 @@ function OneRepMax({ maxes, setMaxes }) {
   };
 
   return (
-    <Box p={10}>
+    <Box p={10} pb={24}>
       <Text px={5} py={2} borderRadius={5} bgColor={"gray.100"}>
-        This program focuses on the five main compound lifts so it is important
-        to track them starting with your one-rep max. A one-rep max (1RM) is the
-        maximum weight you can lift for a single repetition with proper form. To
-        find your 1RM, start by warming up, then choose a weight close to your
-        max, and attempt a single lift. Increase gradually until you reach the
-        heaviest weight you can lift once without breaking form. For a safer
-        estimation, especially for beginners, you can lift a lighter weight for
-        several reps (e.g., 3-5) and use the 1RM calculator to estimate your
-        max. Note: Any Lift left blank will default to 0.
+        This program focuses on the five main compound lifts. A one-rep max (1RM) is 
+        the maximum weight you can lift for a single repetition with proper form. For
+        a safer estimation, you can lift a lighter weight for several reps (e.g., 3-5)
+        and use the 1RM calculator to estimate your max. Input your 1RMs below (if empty,
+        defaults to 0).
       </Text>
 
-      <Flex dir="row" mt={5} pt={10} justifyContent={"space-evenly"} w={"95%"}>
+      <Flex dir="row" mt={5} pt={5} justifyContent={"space-evenly"} w={"95%"}>
         <ORMCalculator />
-        <SimpleGrid columns={2} spacing={20} px={20}>
+        <SimpleGrid columns={2} spacing={10} px={20}>
           {lifts.map((lift) => (
             <NumberInput
-              w={250}
+              w={200}
               key={lift.name}
               mx={"auto"}
               defaultValue={maxes[lift.name]}

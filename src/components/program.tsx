@@ -174,8 +174,8 @@ function Program({
 
   // program
   useEffect(() => {
-    // todo: generate program
-    // per week
+    // todo: setProgram(program)
+    // const program = ...
   }, [projectedOrms, randomizedExos, balancedExos]);
 
   const getFinal1RM = (lift, difficulty) => {

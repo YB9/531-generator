@@ -40,7 +40,7 @@ const Index = () => {
   // program
   const [cycles, setCycles] = useState(18);
   const [assistanceType, setAssistanceType] = useState("random");
-  const [program, setProgram] = useState();
+  const [program, setProgram] = useState(); // todo: initialize
 
   return (
     <Box h="100vh" px={"5%"} pt={"1.5%"}>

@@ -3,6 +3,7 @@ import { DownloadIcon } from "@chakra-ui/icons";
 
 const GeneratePdfBtn = ({ program }) => {
   const handleGenerate = () => {
+    // todo: generate pdf
     console.log("program", program);
   };
 

@@ -8,6 +8,7 @@ import {
   Input,
   Select,
   useToast,
+  Tooltip,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
@@ -76,17 +77,19 @@ function ORMCalculator() {
         <InputRightElement pr={12}>lbs</InputRightElement>
       </InputGroup>
 
-      <Input
-        value={`${calculated1RM} lbs`}
-        onClick={handleCopyToClipboard}
-        readOnly
-        placeholder="Estimated 1RM"
-        borderRadius={4}
-        borderColor={"black"}
-        bgColor={"rgba(255, 255, 255, 0.35)"}
-        textAlign="center"
-        cursor="pointer"
-      />
+      <Tooltip label="Click to copy" aria-label="A tooltip">
+        <Input
+          value={`${calculated1RM} lbs`}
+          onClick={handleCopyToClipboard}
+          readOnly
+          placeholder="Estimated 1RM"
+          borderRadius={4}
+          borderColor={"black"}
+          bgColor={"rgba(255, 255, 255, 0.35)"}
+          textAlign="center"
+          cursor="pointer"
+        />
+      </Tooltip>
     </Box>
   );
 }

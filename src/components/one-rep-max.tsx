@@ -23,7 +23,7 @@ function OneRepMax({ maxes, setMaxes }) {
   };
 
   return (
-    <Box p={10} pb={24}>
+    <Box p={10} pt={5} pb={24}>
       <Text px={5} py={2} borderRadius={5} bgColor={"gray.100"}>
         This program focuses on the five main compound lifts. A one-rep max (1RM) is 
         the maximum weight you can lift for a single repetition with proper form. For

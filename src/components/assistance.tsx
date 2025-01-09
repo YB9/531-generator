@@ -112,7 +112,7 @@ const SplitTable = ({
 
 function Assistance({ assistance, setAssistance }) {
   return (
-    <Box p={10} pb={12}>
+    <Box p={10} pt={5} pb={12}>
       <Text px={5} py={2} mb={5} borderRadius={5} bgColor={"gray.100"}>
         Assistance exercises follow your main compound lifts and are organized
         into a five-day split: 2 Push days, 2 Pull days, and 1 Legs day.

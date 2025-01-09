@@ -187,12 +187,11 @@ function Program({
   };
 
   return (
-    <Box p={10} pb={0}>
+    <Box p={10} pt={5} pb={0}>
       <Text px={5} py={2} mb={2} borderRadius={5} bgColor={"gray.100"}>
-        The program is designed with a 2:1 upper body focus for beginners and
-        specifically for men looking to bulk. Pick the duration, select between
-        the 3 paces and choose an assistance distribution to customize your program. 
-        Generate the pdf and start lifting, good luck!
+        On the left, pick the duration and select between the 3 paces for each lift. On the right,
+        choose the muscle group distribution to customize your program and visualize it with the 
+        pie chart. Finally, generate & download the pdf. Good luck!
       </Text>
 
       <Flex dir="row" justifyContent={"space-evenly"} p={5}>

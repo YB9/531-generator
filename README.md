@@ -2,7 +2,7 @@
 
 ## What is this?
 
-This is my personal 531 program generator. I try to maintain it from time to time to make sure the pdf output is consistent at least. Thanks for checking it out! Rest of the text is AI generated
+The text is AI generated
 
 ## Overview
 

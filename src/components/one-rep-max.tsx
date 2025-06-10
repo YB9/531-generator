@@ -10,9 +10,16 @@ import {
 } from "@chakra-ui/react";
 import exercises from "../exercises.json";
 import ORMCalculator from "./orm-calculator";
+import { Dispatch, SetStateAction } from "react";
+import { Lift, Maxes } from "../types";
 
-function OneRepMax({ maxes, setMaxes }) {
-  const lifts = exercises.filter((exo) => exo.category === "lift");
+interface Props {
+  maxes: Maxes;
+  setMaxes: Dispatch<SetStateAction<Maxes>>;
+}
+
+function OneRepMax({ maxes, setMaxes }: Props) {
+  const lifts: Lift[] = exercises.filter((exo) => exo.category === "lift") as Lift[];
 
   const handleChange = (value: string, lift: string) => {
     const updatedMaxes = {

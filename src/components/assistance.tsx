@@ -19,18 +19,23 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
+import { AssistanceExercise } from "../types";
+
+import { Dispatch, SetStateAction } from "react";
+
+interface SplitTableProps {
+  assistance: AssistanceExercise[];
+  setAssistance: Dispatch<SetStateAction<AssistanceExercise[]>>;
+  split: string;
+  rows: string[];
+}
 
 const SplitTable = ({
   assistance,
   setAssistance,
   split,
   rows,
-}: {
-  assistance: any[];
-  setAssistance: any;
-  split: string;
-  rows: string[];
-}) => {
+}: SplitTableProps) => {
   const getFilteredExos = (split: string, muscle: string) => {
     return assistance.filter(
       (exo) => exo.split === split && exo.group[0] === muscle
@@ -110,7 +115,12 @@ const SplitTable = ({
   );
 };
 
-function Assistance({ assistance, setAssistance }) {
+interface Props {
+  assistance: AssistanceExercise[];
+  setAssistance: Dispatch<SetStateAction<AssistanceExercise[]>>;
+}
+
+function Assistance({ assistance, setAssistance }: Props) {
   return (
     <Box p={10} pt={5} pb={12}>
       <Text px={5} py={2} mb={5} borderRadius={5} bgColor={"gray.100"}>

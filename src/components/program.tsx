@@ -25,7 +25,14 @@ import {
   SQUAT,
   VALID_MUSCLE_GROUPS,
 } from "../constants";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Dispatch, SetStateAction } from "react";
+import {
+  balancedSchedule,
+  weightedRandomSchedule,
+  getWeightedCount,
+  projectOrms,
+} from "../lib/program";
+import { AssistanceExercise, Lift, Maxes } from "../types";
 
 const cyclesMap = {
   3: 9,
@@ -62,14 +69,22 @@ function Program({
   maxes,
   assistance,
   setProgram,
+}: {
+  cycles: number;
+  setCycles: Dispatch<SetStateAction<number>>;
+  assistanceType: string;
+  setAssistanceType: Dispatch<SetStateAction<string>>;
+  maxes: Maxes;
+  assistance: AssistanceExercise[];
+  setProgram: Dispatch<SetStateAction<any>>;
 }) {
-  const lifts = exercises.filter((exo) => exo.category === "lift");
-  const [projectedOrms, setProjectedOrms] = useState({
-    [BENCH]: [maxes[BENCH]],
-    [SQUAT]: [maxes[SQUAT]],
-    [DEADLIFT]: [maxes[DEADLIFT]],
-    [OHP]: [maxes[OHP]],
-    [ROW]: [maxes[ROW]],
+  const lifts: Lift[] = exercises.filter((exo) => exo.category === "lift") as Lift[];
+  const [projectedOrms, setProjectedOrms] = useState<Record<string, number[]>>({
+    [BENCH]: [maxes[BENCH] || 0],
+    [SQUAT]: [maxes[SQUAT] || 0],
+    [DEADLIFT]: [maxes[DEADLIFT] || 0],
+    [OHP]: [maxes[OHP] || 0],
+    [ROW]: [maxes[ROW] || 0],
   });
 
   const [adjustedOrms, setAdjustedOrms] = useState({
@@ -80,96 +95,22 @@ function Program({
     [ROW]: 1,
   });
 
-  const pushExercises = assistance.filter((e) => e.split === "push");
-  const pullExercises = assistance.filter((e) => e.split === "pull");
-  const legExercises = assistance.filter((e) => e.split === "legs");
-
-  // random
-  const [randomizedExos, setRandomizedExos] = useState([]);
+  // assistance scheduling
+  const [randomizedExos, setRandomizedExos] = useState<AssistanceExercise[]>([]);
+  const [balancedExos, setBalancedExos] = useState<AssistanceExercise[]>([]);
   const [toggle, setToggle] = useState(false);
-  const getRandomExos = (array) => {
-    const shuffled = [...array].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, 3);
-  };
-  useEffect(() => {
-    const totalWeeks = Math.ceil(cycles * 1.5);
-    const result = [];
-    for (let i = 0; i < totalWeeks; i++) {
-      let weeklyExercises = [
-        ...getRandomExos(pushExercises),
-        ...getRandomExos(pullExercises),
-        ...getRandomExos(legExercises),
-        ...getRandomExos(pushExercises),
-        ...getRandomExos(pullExercises),
-      ];
-      result.push(...weeklyExercises);
-    }
-    setRandomizedExos(result);
-  }, [toggle, assistanceType, cycles]);
-
-  const getWeightedCount = (muscle) => {
-    const SECONDARY_INC = 0.25;
-    const count = randomizedExos.reduce((count, exo) => {
-      exo.group.forEach((group, index) => {
-        if (group === muscle) {
-          count += index === 0 ? 1 : SECONDARY_INC;
-        }
-      });
-      return count;
-    }, 0);
-    return Math.ceil(count);
-  };
-
-  // balanced
-  const [balancedExos, setBalancedExos] = useState([]);
-  const getBalancedExos = (array) => {
-    const shuffled = array.sort(() => 0.5 - Math.random());
-    const selected = [];
-    const groups = new Set();
-    for (let exo of shuffled) {
-      const mainGroup = exo.group[0];
-      if (!groups.has(mainGroup)) {
-        selected.push(exo);
-        groups.add(mainGroup);
-      }
-      if (selected.length === 3) break;
-    }
-    return selected;
-  };
 
   useEffect(() => {
-    const totalWeeks = Math.ceil(cycles * 1.5);
-    const result = [];
-    for (let i = 0; i < totalWeeks; i++) {
-      let weeklyExercises = [
-        ...getBalancedExos(pushExercises),
-        ...getBalancedExos(pullExercises),
-        ...getBalancedExos(legExercises),
-        ...getBalancedExos(pushExercises),
-        ...getBalancedExos(pullExercises),
-      ];
-      result.push(...weeklyExercises);
-    }
-    setBalancedExos(result);
-  }, [assistanceType, cycles]);
+    setRandomizedExos(weightedRandomSchedule(assistance, cycles));
+  }, [toggle, assistance, cycles]);
+
+  useEffect(() => {
+    setBalancedExos(balancedSchedule(assistance, cycles));
+  }, [assistance, cycles]);
 
   // 1RM projection
   useEffect(() => {
-    const updatedOrms = { ...projectedOrms };
-    lifts.forEach((lift) => {
-      const initialORM = updatedOrms[lift.name][0] || 0;
-      const newArray = [initialORM * adjustedOrms[lift.name]];
-      for (let i = 1; i <= cycles; i++) {
-        const prevORM = newArray[newArray.length - 1];
-        if (i % 5 === 0) {
-          newArray.push(prevORM - lift.deload);
-        } else {
-          newArray.push(prevORM + lift.overload);
-        }
-      }
-      updatedOrms[lift.name] = newArray;
-    });
-    setProjectedOrms(updatedOrms);
+    setProjectedOrms(projectOrms(lifts, maxes, cycles, adjustedOrms));
   }, [cycles, maxes, adjustedOrms]);
 
   // program
@@ -306,7 +247,7 @@ function Program({
                   title: muscle,
                   value:
                     assistanceType === "random"
-                      ? getWeightedCount(muscle)
+                      ? getWeightedCount(randomizedExos, muscle)
                       : balancedExos.filter((exo) => exo.group[0] === muscle)
                           .length,
                   color: groupColors[muscle],

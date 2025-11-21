@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>1RM Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1></h1>
+
+    <div class="wizard-container">
+        <!-- Step 1: Lifts -->
+        <div id="step-1" class="step active">
+            <h2>Step 1: Enter Lifts</h2>
+            <div id="lifts">
+                <div class="lift-group">
+                    <div class="lift">
+                        <label>Squat</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="squat-weight" placeholder="Weight"
+                                oninput="calculateLift('squat')">
+                            <span class="unit">lbs</span>
+                        </div>
+                        <div class="input-with-unit">
+                            <input type="number" id="squat-reps" placeholder="Reps" value="1"
+                                oninput="calculateLift('squat')">
+                            <span class="unit">Reps</span>
+                        </div>
+                        <div class="results-row">
+                            <div class="result-1rm" id="squat-1rm">—</div>
+                            <div class="result-tm" id="squat-tm">—</div>
+                        </div>
+                    </div>
+
+                    <div class="lift">
+                        <label>Deadlift</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="deadlift-weight" placeholder="Weight"
+                                oninput="calculateLift('deadlift')">
+                            <span class="unit">lbs</span>
+                        </div>
+                        <div class="input-with-unit">
+                            <input type="number" id="deadlift-reps" placeholder="Reps" value="1"
+                                oninput="calculateLift('deadlift')">
+                            <span class="unit">Reps</span>
+                        </div>
+                        <div class="results-row">
+                            <div class="result-1rm" id="deadlift-1rm">—</div>
+                            <div class="result-tm" id="deadlift-tm">—</div>
+                        </div>
+                    </div>
+
+                    <div class="lift">
+                        <label>Bench Press</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="bench-weight" placeholder="Weight"
+                                oninput="calculateLift('bench')">
+                            <span class="unit">lbs</span>
+                        </div>
+                        <div class="input-with-unit">
+                            <input type="number" id="bench-reps" placeholder="Reps" value="1"
+                                oninput="calculateLift('bench')">
+                            <span class="unit">Reps</span>
+                        </div>
+                        <div class="results-row">
+                            <div class="result-1rm" id="bench-1rm">—</div>
+                            <div class="result-tm" id="bench-tm">—</div>
+                        </div>
+                    </div>
+
+                    <div class="lift">
+                        <label>Overhead Press</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="ohp-weight" placeholder="Weight" oninput="calculateLift('ohp')">
+                            <span class="unit">lbs</span>
+                        </div>
+                        <div class="input-with-unit">
+                            <input type="number" id="ohp-reps" placeholder="Reps" value="1"
+                                oninput="calculateLift('ohp')">
+                            <span class="unit">Reps</span>
+                        </div>
+                        <div class="results-row">
+                            <div class="result-1rm" id="ohp-1rm">—</div>
+                            <div class="result-tm" id="ohp-tm">—</div>
+                        </div>
+                    </div>
+
+                    <div class="lift">
+                        <label>Rows</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="rows-weight" placeholder="Weight" oninput="calculateLift('rows')">
+                            <span class="unit">lbs</span>
+                        </div>
+                        <div class="input-with-unit">
+                            <input type="number" id="rows-reps" placeholder="Reps" value="1"
+                                oninput="calculateLift('rows')">
+                            <span class="unit">Reps</span>
+                        </div>
+                        <div class="results-row">
+                            <div class="result-1rm" id="rows-1rm">—</div>
+                            <div class="result-tm" id="rows-tm">—</div>
+                        </div>
+                    </div>
+                </div>
+                <p class="help-text">
+                    Enter the weight and reps for your recent max effort on each lift. Your <strong>1RM</strong>
+                    (one-rep max) will be calculated automatically using the Epley formula. The <strong>TM</strong>
+                    (Training Max) shown in green is 90% of your 1RM, which is used as the basis for your 5/3/1 program.
+                </p>
+            </div>
+
+            <div class="nav-buttons">
+                <button id="next-to-step2" onclick="nextStep(2)" disabled>Next: Assistance</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Assistance -->
+        <div id="step-2" class="step">
+            <h2>Step 2: Assistance Work</h2>
+
+            <div class="assistance-grid">
+                <!-- Push Split -->
+                <div class="split-card">
+                    <h3>Push</h3>
+                    <div class="exercise-list" id="push-exercises">
+                        <div class="exercise-item selected" data-exercise="Barbell flat bench press">Barbell flat bench
+                            press</div>
+                        <div class="exercise-item selected" data-exercise="Dumbbell flat bench press">Dumbbell flat
+                            bench press</div>
+                        <div class="exercise-item selected" data-exercise="Incline dumbbell bench press">Incline
+                            dumbbell bench press</div>
+                        <div class="exercise-item selected" data-exercise="Push-ups">Push-ups</div>
+                        <div class="exercise-item selected" data-exercise="Dumbbell floor press">Dumbbell floor press
+                        </div>
+                        <div class="exercise-item selected" data-exercise="Standing barbell overhead press">Standing
+                            barbell overhead press</div>
+                        <div class="exercise-item selected" data-exercise="Seated dumbbell shoulder press">Seated
+                            dumbbell shoulder press</div>
+                        <div class="exercise-item selected" data-exercise="Arnold press">Arnold press</div>
+                        <div class="exercise-item selected" data-exercise="Pike push-ups / handstand push-ups">Pike
+                            push-ups / handstand push-ups</div>
+                        <div class="exercise-item selected" data-exercise="Single-arm dumbbell overhead press">
+                            Single-arm dumbbell overhead press</div>
+                        <div class="exercise-item selected" data-exercise="Dumbbell lateral raise">Dumbbell lateral
+                            raise</div>
+                        <div class="exercise-item selected" data-exercise="Dumbbell front raise">Dumbbell front raise
+                        </div>
+                        <div class="exercise-item selected" data-exercise="Lying triceps extension">Lying triceps
+                            extension</div>
+                        <div class="exercise-item selected" data-exercise="Overhead dumbbell triceps extension">Overhead
+                            dumbbell triceps extension</div>
+                        <div class="exercise-item selected" data-exercise="Diamond / close-grip push-ups">Diamond /
+                            close-grip push-ups</div>
+                    </div>
+                </div>
+
+                <!-- Pull Split -->
+                <div class="split-card">
+                    <h3>Pull</h3>
+                    <div class="exercise-list" id="pull-exercises">
+                        <div class="exercise-item selected" data-exercise="Pull-ups">Pull-ups</div>
+                        <div class="exercise-item selected" data-exercise="Chin-ups">Chin-ups</div>
+                        <div class="exercise-item selected" data-exercise="Close-grip chin-ups">Close-grip chin-ups
+                        </div>
+                        <div class="exercise-item selected" data-exercise="Dumbbell pullover">Dumbbell pullover</div>
+                        <div class="exercise-item selected" data-exercise="Barbell pullover">Barbell pullover</div>
+                        <div class="exercise-item selected" data-exercise="Barbell bent-over row">Barbell bent-over row
+                        </div>
+                        <div class="exercise-item selected" data-exercise="Pendlay row">Pendlay row</div>
+                        <div class="exercise-item selected" data-exercise="One-arm dumbbell row">One-arm dumbbell row
+                        </div>
+                        <div class="exercise-item selected" data-exercise="Inverted row">Inverted row</div>
+                        <div class="exercise-item selected" data-exercise="Yates row">Yates row</div>
+                        <div class="exercise-item selected" data-exercise="Bent-over rear delt raise">Bent-over rear
+                            delt raise</div>
+                        <div class="exercise-item selected" data-exercise="DB Y-raise">DB Y-raise</div>
+                        <div class="exercise-item selected" data-exercise="Barbell curl">Barbell curl</div>
+                        <div class="exercise-item selected" data-exercise="Alternating dumbbell curl">Alternating
+                            dumbbell curl</div>
+                        <div class="exercise-item selected" data-exercise="Hammer curl">Hammer curl</div>
+                    </div>
+                </div>
+
+                <!-- Legs Split -->
+                <div class="split-card">
+                    <h3>Legs</h3>
+                    <div class="exercise-list" id="legs-exercises">
+                        <div class="exercise-item selected" data-exercise="Back squat">Back squat</div>
+                        <div class="exercise-item selected" data-exercise="Front squat">Front squat</div>
+                        <div class="exercise-item selected" data-exercise="Goblet squat">Goblet squat</div>
+                        <div class="exercise-item selected" data-exercise="Cyclist squat">Cyclist squat</div>
+                        <div class="exercise-item selected" data-exercise="Walking lunges">Walking lunges</div>
+                        <div class="exercise-item selected" data-exercise="Romanian deadlift">Romanian deadlift</div>
+                        <div class="exercise-item selected" data-exercise="Stiff-leg deadlift">Stiff-leg deadlift</div>
+                        <div class="exercise-item selected" data-exercise="Barbell good morning">Barbell good morning
+                        </div>
+                        <div class="exercise-item selected" data-exercise="Barbell hip thrust">Barbell hip thrust</div>
+                        <div class="exercise-item selected" data-exercise="Nordic hamstring curl">Nordic hamstring curl
+                        </div>
+                        <div class="exercise-item selected" data-exercise="Bulgarian split squat">Bulgarian split squat
+                        </div>
+                        <div class="exercise-item selected" data-exercise="Step-ups">Step-ups</div>
+                        <div class="exercise-item selected" data-exercise="Single-leg Romanian deadlift">Single-leg
+                            Romanian deadlift</div>
+                        <div class="exercise-item selected" data-exercise="Single-leg glute bridge">Single-leg glute
+                            bridge</div>
+                        <div class="exercise-item selected" data-exercise="Standing calf raise">Standing calf raise
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="help-text">Select exercises for each split. Click an exercise to toggle selection (faded = not
+                selected).</p>
+
+            <div class="nav-buttons">
+                <button class="secondary" onclick="prevStep(1)">Back</button>
+                <button onclick="nextStep(3)">Next: Overview</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Overview -->
+        <div id="step-3" class="step">
+            <h2>Step 3: Program Overview</h2>
+
+            <div id="overview-content">
+                <!-- Generated by JS -->
+                <h3>Training Maxes</h3>
+                <table id="tm-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Squat</th>
+                            <th>Deadlift</th>
+                            <th>Bench</th>
+                            <th>OHP</th>
+                            <th>Rows</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows generated by JS -->
+                    </tbody>
+                </table>
+
+                <h3>Assistance Plan</h3>
+                <div id="assistance-summary"></div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="secondary" onclick="prevStep(2)">Back</button>
+                <button onclick="downloadProgram()">Download Program</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>

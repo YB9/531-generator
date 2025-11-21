@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>1RM Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1></h1>
+
+    <div class="wizard-container">
+        <!-- Step 1: Lifts -->
+        <div id="step-1" class="step active">
+            <h2>Step 1: Enter Lifts</h2>
+            <div id="lifts">
+                <div class="lift-group">
+                    <div class="lift">
+                        <label>Squat</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="squat-weight" placeholder="85" oninput="calculateLift('squat')">
+                            <span class="unit">lbs</span>
+                        </div>
+                        <div class="input-with-unit">
+                            <input type="number" id="squat-reps" placeholder="Reps" value="1"
+                                oninput="calculateLift('squat')">
+                            <span class="unit">Reps</span>
+                        </div>
+                        <div class="results-row">
+                            <div class="result-1rm" id="squat-1rm">—</div>
+                            <div class="result-tm" id="squat-tm">—</div>
+                        </div>
+                    </div>
+
+                    <div class="lift">
+                        <label>Deadlift</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="deadlift-weight" placeholder="125"
+                                oninput="calculateLift('deadlift')">
+                            <span class="unit">lbs</span>
+                        </div>
+                        <div class="input-with-unit">
+                            <input type="number" id="deadlift-reps" placeholder="Reps" value="1"
+                                oninput="calculateLift('deadlift')">
+                            <span class="unit">Reps</span>
+                        </div>
+                        <div class="results-row">
+                            <div class="result-1rm" id="deadlift-1rm">—</div>
+                            <div class="result-tm" id="deadlift-tm">—</div>
+                        </div>
+                    </div>
+
+                    <div class="lift">
+                        <label>Bench Press</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="bench-weight" placeholder="85" oninput="calculateLift('bench')">
+                            <span class="unit">lbs</span>
+                        </div>
+                        <div class="input-with-unit">
+                            <input type="number" id="bench-reps" placeholder="Reps" value="1"
+                                oninput="calculateLift('bench')">
+                            <span class="unit">Reps</span>
+                        </div>
+                        <div class="results-row">
+                            <div class="result-1rm" id="bench-1rm">—</div>
+                            <div class="result-tm" id="bench-tm">—</div>
+                        </div>
+                    </div>
+
+                    <div class="lift">
+                        <label>Overhead Press</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="ohp-weight" placeholder="50" oninput="calculateLift('ohp')">
+                            <span class="unit">lbs</span>
+                        </div>
+                        <div class="input-with-unit">
+                            <input type="number" id="ohp-reps" placeholder="Reps" value="1"
+                                oninput="calculateLift('ohp')">
+                            <span class="unit">Reps</span>
+                        </div>
+                        <div class="results-row">
+                            <div class="result-1rm" id="ohp-1rm">—</div>
+                            <div class="result-tm" id="ohp-tm">—</div>
+                        </div>
+                    </div>
+
+                    <div class="lift">
+                        <label>Row</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="row-weight" placeholder="65" oninput="calculateLift('row')">
+                            <span class="unit">lbs</span>
+                        </div>
+                        <div class="input-with-unit">
+                            <input type="number" id="row-reps" placeholder="Reps" value="1"
+                                oninput="calculateLift('row')">
+                            <span class="unit">Reps</span>
+                        </div>
+                        <div class="results-row">
+                            <div class="result-1rm" id="row-1rm">—</div>
+                            <div class="result-tm" id="row-tm">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button id="next-to-step2" onclick="nextStep(2)" disabled>Next: Assistance</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Assistance -->
+        <div id="step-2" class="step">
+            <h2>Step 2: Assistance Work</h2>
+
+            <div class="assistance-grid">
+                <!-- Push Split -->
+                <div class="split-card">
+                    <h3>Push</h3>
+                    <div class="exercise-list" id="push-exercises">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Pull Split -->
+                <div class="split-card">
+                    <h3>Pull</h3>
+                    <div class="exercise-list" id="pull-exercises">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Legs Split -->
+                <div class="split-card">
+                    <h3>Legs</h3>
+                    <div class="exercise-list" id="legs-exercises">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="secondary" onclick="prevStep(1)">Back</button>
+                <button type="button" onclick="nextStep(3)">Next: Overview</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Overview -->
+        <div id="step-3" class="step">
+            <h2>Step 3: Program Overview</h2>
+
+            <div id="overview-content">
+                <!-- Generated by JS -->
+            </div>
+
+            <div class="nav-buttons">
+                <button class="secondary" onclick="prevStep(2)">Back</button>
+                <button onclick="downloadPDF()">Download PDF ⬇️</button>
+            </div>
+        </div>
+
+
+
+        <!-- jsPDF and AutoTable -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+        <script src="script.js"></script>
+</body>
+
+</html>

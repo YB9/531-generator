@@ -1,0 +1,582 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0;
+  margin: 0;
+  background-color: #f4f4f9;
+  color: #333;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* zoom: 1.1; removed for better fitting */
+  overflow-y: auto;
+  /* allow body scroll if really needed, but try to contain */
+}
+
+h1 {
+  text-align: center;
+  margin: 0.5rem 0;
+  color: #2c3e50;
+}
+
+h2,
+h3 {
+  color: #2c3e50;
+}
+
+.wizard-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 20px 20px;
+  box-sizing: border-box;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.step {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  background: white;
+  padding: 1rem;
+  padding-top: 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-in-out;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.step.active {
+  display: flex;
+}
+
+/* Content wrapper for scrollable area */
+.step>div:not(.nav-buttons) {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  margin-bottom: 1rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Lifts Section */
+.lift-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.lift {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.input-with-unit {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.input-with-unit input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.input-with-unit .unit {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+  white-space: nowrap;
+  min-width: 40px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+.result {
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.results-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  align-items: center;
+}
+
+.result-1rm {
+  display: none;
+}
+
+.result-tm {
+  display: none;
+  font-size: 0.95rem;
+  color: #c7b049;
+  font-weight: bold;
+}
+
+.help-text {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.6;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-left: 3px solid #3498db;
+  border-radius: 4px;
+}
+
+/* Navigation Buttons */
+.nav-buttons {
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem 0;
+  background: white;
+  border-top: 1px solid #eee;
+  z-index: 10;
+}
+
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+button.secondary {
+  background-color: #95a5a6;
+}
+
+button.secondary:hover {
+  background-color: #7f8c8d;
+}
+
+button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+button:disabled:hover {
+  background-color: #bdc3c7;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #2c3e50;
+  color: white;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Assistance Section */
+.assistance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+
+.split-card {
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  padding: 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.split-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+  color: #e67e22;
+  border-bottom: 2px solid #e67e22;
+  padding-bottom: 0.3rem;
+}
+
+.exercise-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.exercise-item {
+  padding: 0.25rem 0.4rem;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  font-size: 0.7rem;
+  text-align: center;
+}
+
+.exercise-item:hover {
+  background: #e8f4f8;
+  border-color: #3498db;
+}
+
+.exercise-item.selected {
+  background: #e8f4f8;
+  border-color: #3498db;
+  opacity: 1;
+}
+
+.exercise-item:not(.selected) {
+  opacity: 0.4;
+  background: #f0f0f0;
+}
+
+.exercise-item:not(.selected):hover {
+  opacity: 0.6;
+}
+
+.exercise-name {
+  display: inline-block;
+  min-width: 50px;
+  /* target area for very short names */
+  cursor: text;
+  outline: none;
+  border-bottom: 1px dashed transparent;
+  transition: border-color 0.2s;
+}
+
+.exercise-name:focus {
+  border-bottom-color: #3498db;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Legacy day-card styles (kept for compatibility) */
+.day-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.day-card h3 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  color: #e67e22;
+}
+
+.day-card p {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+#assistance-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.summary-card {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+.summary-card strong {
+  color: #e67e22;
+  font-size: 1.1rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.summary-card ul {
+  list-style-type: disc;
+  color: #555;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.summary-card li {
+  margin-bottom: 0.25rem;
+}
+
+/* Week and Day Blocks for Program Overview */
+.week-header {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  border-radius: 6px;
+  font-size: 1.2rem;
+}
+
+.week-header:first-of-type {
+  margin-top: 0;
+}
+
+.day-block {
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.day-block h4 {
+  margin: 0 0 0.75rem 0;
+  color: #e67e22;
+  font-size: 1.1rem;
+  border-bottom: 2px solid #e67e22;
+  padding-bottom: 0.5rem;
+}
+
+.lifts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.75rem 0;
+}
+
+.lifts-list li {
+  padding: 0.5rem 0.75rem;
+  background: #fff;
+  border-left: 3px solid #3498db;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  border-radius: 0 4px 4px 0;
+}
+
+.assistance-title {
+  margin: 0.75rem 0 0.5rem 0;
+  font-weight: 600;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.assistance-list {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.assistance-list li {
+  color: #555;
+  font-size: 0.9rem;
+  padding: 0.25rem 0;
+}
+
+.week-separator {
+  border: none;
+  border-top: 2px dashed #ddd;
+  margin: 2rem 0;
+}
+
+/* Program Table styling */
+#tm-table {
+  margin-top: 2rem;
+}
+
+#overview-content {
+  overflow-y: auto;
+}
+
+.diff-add {
+  color: #27ae60;
+  font-size: 0.85em;
+  margin-left: 6px;
+}
+
+.diff-sub {
+  color: #c0392b;
+  font-size: 0.85em;
+  margin-left: 6px;
+}
+
+/* Step 4: Final Program Styles - Plain/Minimalist */
+#step-4 {
+  color: #000 !important;
+  padding: 2rem;
+}
+
+#final-summary {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+#assistance-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  #assistance-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+#step-4 .summary-card {
+  /* Reset flex behaviors */
+  flex: initial;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+/* 1RM Card - Centered */
+#step-4 .summary-card:first-child {
+  margin: 0 auto;
+  max-width: 500px;
+  /* Restrict width for readability */
+}
+
+/* Assistance Card - Full Width */
+#step-4 .summary-card:last-child {
+  max-width: 100%;
+}
+
+/* Override columns for assistance to use full width effectively */
+.compact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+  /* columns removed, handled by grid */
+  column-gap: 3rem;
+}
+
+@media (max-width: 768px) {
+  .compact-list {
+    columns: 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .compact-list {
+    columns: 1;
+  }
+}
+
+#step-4 h2,
+#step-4 h3,
+#step-4 .summary-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #000;
+  border: none;
+  padding: 0;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+#step-4 .summary-card strong {
+  color: #000;
+  font-size: 1rem;
+  display: inline;
+  margin: 0;
+}
+
+.compact-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.compact-table td {
+  padding: 2px 0;
+  border: none;
+  font-size: 1rem;
+}
+
+/* compact-list columns defined above */
+.compact-list li {
+  margin-bottom: 2px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Reusing icon-btn styles if needed, or remove if unused */
+.icon-btn {
+  /* kept for potential future use or if used elsewhere */
+  background: transparent;
+  border: 1px solid #3498db;
+  color: #3498db;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon-btn:hover {
+  background: #e8f4f8;
+}

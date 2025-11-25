@@ -4,14 +4,16 @@ body {
     margin: 0;
     background-color: #f4f4f9;
     color: #333;
-    height: 100vh;
+    max-height: 100vh;
     display: flex;
     flex-direction: column;
+    zoom: 1.1;
+    overflow: hidden;
 }
 
 h1 {
     text-align: center;
-    margin: 1rem 0;
+    margin: 0.5rem 0;
     color: #2c3e50;
 }
 
@@ -28,6 +30,8 @@ h3 {
     width: 100%;
     padding: 0 20px 20px;
     box-sizing: border-box;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .step {
@@ -41,6 +45,7 @@ h3 {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     animation: fadeIn 0.3s ease-in-out;
     min-height: 0;
+    overflow: hidden;
 }
 
 .step.active {

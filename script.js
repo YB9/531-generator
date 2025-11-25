@@ -1,5 +1,5 @@
 let currentStep = 1;
-const lifts = ["squat", "deadlift", "bench", "ohp", "rows"];
+const lifts = ["squat", "deadlift", "bench", "ohp", "row"];
 let trainingMaxes = {};
 let assistanceData = {};
 
@@ -120,50 +120,50 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function generateOverview() {
-    // Generate TM Table
+    // Generate 1RM Table with initial values and 6 empty monthly rows
     const tbody = document.querySelector('#tm-table tbody');
     tbody.innerHTML = '';
-    const today = new Date().toLocaleDateString();
-    const row = document.createElement('tr');
+    const today = new Date();
 
-    const dateCell = document.createElement('td');
-    dateCell.textContent = today;
-    row.appendChild(dateCell);
+    // First row: Initial date with actual 1RM values
+    const initialRow = document.createElement('tr');
+    const initialDateCell = document.createElement('td');
+    // Format date as 'day month' e.g., '11 Nov'
+    const options = { day: 'numeric', month: 'short' };
+    initialDateCell.textContent = today.toLocaleDateString('en-GB', options);
+    initialRow.appendChild(initialDateCell);
 
     lifts.forEach(lift => {
         const cell = document.createElement('td');
-        cell.textContent = trainingMaxes[lift].toFixed(1) + " lb";
-        row.appendChild(cell);
+        // Calculate actual 1RM (trainingMaxes is 90% of 1RM, so divide by 0.9)
+        const oneRM = trainingMaxes[lift] / 0.9;
+        cell.textContent = oneRM.toFixed(1) + " lb";
+        initialRow.appendChild(cell);
     });
-    tbody.appendChild(row);
+    tbody.appendChild(initialRow);
 
-    // Generate Assistance Summary
-    const summaryDiv = document.getElementById('assistance-summary');
-    summaryDiv.innerHTML = '';
+    // Add 6 empty rows for monthly tracking
+    for (let i = 1; i <= 6; i++) {
+        const emptyRow = document.createElement('tr');
 
-    const splits = [
-        { name: "Push", key: "push" },
-        { name: "Pull", key: "pull" },
-        { name: "Legs", key: "legs" }
-    ];
+        // Date cell with month offset
+        const dateCell = document.createElement('td');
+        const futureDate = new Date(today);
+        futureDate.setMonth(today.getMonth() + i);
+        // Format future date as 'day month' e.g., '11 Nov'
+        dateCell.textContent = futureDate.toLocaleDateString('en-GB', options);
+        emptyRow.appendChild(dateCell);
 
-    splits.forEach(split => {
-        const card = document.createElement('div');
-        card.className = 'summary-card';
+        // Empty cells for each lift
+        lifts.forEach(() => {
+            const cell = document.createElement('td');
+            cell.textContent = '';
+            emptyRow.appendChild(cell);
+        });
 
-        const exercises = assistanceData[split.key] || [];
-        const exerciseList = exercises.length > 0
-            ? exercises.map(ex => `<li>${ex}</li>`).join('')
-            : '<li>No exercises selected</li>';
+        tbody.appendChild(emptyRow);
+    }
 
-        card.innerHTML = `
-            <strong>${split.name}</strong>
-            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
-                ${exerciseList}
-            </ul>
-        `;
-        summaryDiv.appendChild(card);
-    });
 }
 
 function downloadProgram() {
@@ -190,11 +190,18 @@ function downloadProgram() {
         }
     });
 
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = '531-program.txt';
-    a.click();
-    window.URL.revokeObjectURL(url);
+    // Log 1RM values and assistance selections to console
+    const oneRMs = {};
+    lifts.forEach(lift => {
+        const oneRM = trainingMaxes[lift] / 0.9; // calculate actual 1RM
+        // Store numeric value rounded to one decimal place
+        oneRMs[lift] = parseFloat(oneRM.toFixed(1));
+    });
+    console.log("1RM values:", oneRMs);
+    console.log("Assistance selections per split:", assistanceData);
+
+    // Instead of downloading, output the program content to the console
+
+    // Clean up any created object URLs (none needed now)
+    // No file download performed
 }

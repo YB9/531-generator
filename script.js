@@ -3,6 +3,15 @@ const lifts = ["squat", "deadlift", "bench", "ohp", "row"];
 let trainingMaxes = {};
 let assistanceData = {};
 
+// Progression settings (in lbs)
+const progressionConfig = {
+    bench: { increment: 10, deload: 7.5 },
+    ohp: { increment: 5, deload: 5 },
+    squat: { increment: 10, deload: 15 },
+    row: { increment: 7.5, deload: 5 },
+    deadlift: { increment: 15, deload: 20 }
+};
+
 function calculate1RM(weight, reps) {
     if (!weight || !reps || weight <= 0 || reps <= 0) return null;
     return weight * (1 + reps / 30);
@@ -119,49 +128,79 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+// Calculate projected 1RM for a lift after a given number of weeks
+function calculate1RMProjection(lift, startingOneRM, weeks) {
+    // Every 1.5 weeks = 1 increment cycle
+    // Each muscle is hit 2x per week, so after 3 sessions (1.5 weeks) we increment
+    // Every 5th increment is replaced with a deload
+
+    const config = progressionConfig[lift];
+    const incrementsCompleted = Math.floor(weeks / 1.5);
+
+    let currentOneRM = startingOneRM;
+
+    for (let i = 1; i <= incrementsCompleted; i++) {
+        if (i % 5 === 0) {
+            // Every 5th increment is a deload (subtract)
+            currentOneRM -= config.deload;
+        } else {
+            // Normal increment (add)
+            currentOneRM += config.increment;
+        }
+    }
+
+    return currentOneRM;
+}
+
 function generateOverview() {
-    // Generate 1RM Table with initial values and 6 empty monthly rows
+    // Generate 1RM Table with initial values and projected monthly values
     const tbody = document.querySelector('#tm-table tbody');
     tbody.innerHTML = '';
     const today = new Date();
+    const options = { day: 'numeric', month: 'short' };
+
+    // Get initial 1RM values (trainingMaxes is 90% of 1RM, so divide by 0.9)
+    const initialOneRMs = {};
+    lifts.forEach(lift => {
+        initialOneRMs[lift] = trainingMaxes[lift] / 0.9;
+    });
 
     // First row: Initial date with actual 1RM values
     const initialRow = document.createElement('tr');
     const initialDateCell = document.createElement('td');
-    // Format date as 'day month' e.g., '11 Nov'
-    const options = { day: 'numeric', month: 'short' };
     initialDateCell.textContent = today.toLocaleDateString('en-GB', options);
     initialRow.appendChild(initialDateCell);
 
     lifts.forEach(lift => {
         const cell = document.createElement('td');
-        // Calculate actual 1RM (trainingMaxes is 90% of 1RM, so divide by 0.9)
-        const oneRM = trainingMaxes[lift] / 0.9;
-        cell.textContent = oneRM.toFixed(1) + " lb";
+        cell.textContent = initialOneRMs[lift].toFixed(1) + " lb";
         initialRow.appendChild(cell);
     });
     tbody.appendChild(initialRow);
 
-    // Add 6 empty rows for monthly tracking
-    for (let i = 1; i <= 6; i++) {
-        const emptyRow = document.createElement('tr');
+    // Add 6 rows for monthly tracking with calculated projections
+    for (let month = 1; month <= 6; month++) {
+        const row = document.createElement('tr');
 
         // Date cell with month offset
         const dateCell = document.createElement('td');
         const futureDate = new Date(today);
-        futureDate.setMonth(today.getMonth() + i);
-        // Format future date as 'day month' e.g., '11 Nov'
+        futureDate.setMonth(today.getMonth() + month);
         dateCell.textContent = futureDate.toLocaleDateString('en-GB', options);
-        emptyRow.appendChild(dateCell);
+        row.appendChild(dateCell);
 
-        // Empty cells for each lift
-        lifts.forEach(() => {
+        // Calculate weeks elapsed (approximately 4.33 weeks per month)
+        const weeksElapsed = month * 4.33;
+
+        // Calculate projected 1RM for each lift
+        lifts.forEach(lift => {
             const cell = document.createElement('td');
-            cell.textContent = '';
-            emptyRow.appendChild(cell);
+            const projected1RM = calculate1RMProjection(lift, initialOneRMs[lift], weeksElapsed);
+            cell.textContent = projected1RM.toFixed(1) + " lb";
+            row.appendChild(cell);
         });
 
-        tbody.appendChild(emptyRow);
+        tbody.appendChild(row);
     }
 
 }

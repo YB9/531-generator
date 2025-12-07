@@ -140,10 +140,7 @@ input {
 }
 
 .result-1rm {
-    font-size: 1.05rem;
-    color: #219953;
-    font-weight: 600;
-    margin-left: 0.5rem;
+    display: none;
 }
 
 .result-tm {
@@ -166,13 +163,17 @@ input {
 
 /* Navigation Buttons */
 .nav-buttons {
-    margin-top: 0;
+    position: sticky;
+    bottom: 0;
+    margin-top: auto;
     flex-shrink: 0;
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
-    padding-top: 1.5rem;
+    padding: 1rem 0;
+    background: white;
     border-top: 1px solid #eee;
+    z-index: 10;
 }
 
 button {
@@ -263,14 +264,14 @@ tr:hover {
 }
 
 .exercise-item {
-    padding: 0.4rem 0.6rem;
+    padding: 0.25rem 0.4rem;
     background: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
     user-select: none;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     text-align: center;
 }
 
@@ -344,4 +345,86 @@ tr:hover {
 
 .summary-card li {
     margin-bottom: 0.25rem;
+}
+
+/* Week and Day Blocks for Program Overview */
+.week-header {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    border-radius: 6px;
+    font-size: 1.2rem;
+}
+
+.week-header:first-of-type {
+    margin-top: 0;
+}
+
+.day-block {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.day-block h4 {
+    margin: 0 0 0.75rem 0;
+    color: #e67e22;
+    font-size: 1.1rem;
+    border-bottom: 2px solid #e67e22;
+    padding-bottom: 0.5rem;
+}
+
+.lifts-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.75rem 0;
+}
+
+.lifts-list li {
+    padding: 0.5rem 0.75rem;
+    background: #fff;
+    border-left: 3px solid #3498db;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    border-radius: 0 4px 4px 0;
+}
+
+.assistance-title {
+    margin: 0.75rem 0 0.5rem 0;
+    font-weight: 600;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.assistance-list {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin: 0;
+}
+
+.assistance-list li {
+    color: #555;
+    font-size: 0.9rem;
+    padding: 0.25rem 0;
+}
+
+.week-separator {
+    border: none;
+    border-top: 2px dashed #ddd;
+    margin: 2rem 0;
+}
+
+/* Program Table styling */
+#tm-table {
+    margin-top: 2rem;
+}
+
+#overview-content {
+    overflow-y: auto;
 }

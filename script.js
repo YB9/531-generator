@@ -3,18 +3,121 @@ const lifts = ["squat", "deadlift", "bench", "ohp", "row"];
 let trainingMaxes = {};
 let assistanceData = {};
 
+// Assistance exercises for each split (moved from HTML)
+const assistanceExercises = {
+    push: [
+        "Dumbbell flat bench press",
+        "Incline dumbbell bench press",
+        "Push-ups",
+        "Dumbbell floor press",
+        "Seated dumbbell shoulder press",
+        "Arnold press",
+        "Pike push-ups / handstand push-ups",
+        "Single-arm dumbbell overhead press",
+        "Dumbbell lateral raise",
+        "Dumbbell front raise",
+        "Lying triceps extension",
+        "Overhead dumbbell triceps extension",
+        "Diamond / close-grip push-ups"
+    ],
+    pull: [
+        "Pull-ups",
+        "Chin-ups",
+        "Dumbbell pullover",
+        "Barbell pullover",
+        "Pendlay row",
+        "One-arm dumbbell row",
+        "Inverted row",
+        "Yates row",
+        "Bent-over rear delt raise",
+        "DB Y-raise",
+        "Barbell curl",
+        "Alternating dumbbell curl",
+        "Hammer curl"
+    ],
+    legs: [
+        "Front squat",
+        "Goblet squat",
+        "Walking lunges",
+        "Romanian deadlift",
+        "Stiff-leg deadlift",
+        "Barbell good morning",
+        "Barbell hip thrust",
+        "Nordic hamstring curl",
+        "Bulgarian split squat",
+        "Step-ups",
+        "Single-leg Romanian deadlift",
+        "Single-leg glute bridge",
+        "Standing calf raise"
+    ]
+};
+
 // Progression settings (in lbs)
 const progressionConfig = {
-    bench: { increment: 10, deload: 7.5 },
-    ohp: { increment: 5, deload: 5 },
-    squat: { increment: 10, deload: 15 },
-    row: { increment: 7.5, deload: 5 },
-    deadlift: { increment: 15, deload: 20 }
+    bench: { increment: 7.5, deload: 10 },
+    ohp: { increment: 5, deload: 7.5 },
+    squat: { increment: 7.5, deload: 15 },
+    row: { increment: 5, deload: 5 },
+    deadlift: { increment: 10, deload: 20 }
 };
+
+// Program structure: 5 days per week
+const programStructure = [
+    {
+        day: 1,
+        name: "Push",
+        split: "push",
+        lifts: [
+            { lift: "bench", sets: 5, reps: 3, percentage: 0.87, type: "strength" },
+            { lift: "ohp", sets: 4, reps: 10, percentage: 0.70, type: "hypertrophy" }
+        ]
+    },
+    {
+        day: 2,
+        name: "Pull",
+        split: "pull",
+        lifts: [
+            { lift: "deadlift", sets: 5, reps: 3, percentage: 0.87, type: "strength" },
+            { lift: "row", sets: 4, reps: 10, percentage: 0.70, type: "hypertrophy" }
+        ]
+    },
+    {
+        day: 3,
+        name: "Legs",
+        split: "legs",
+        lifts: [
+            { lift: "squat", sets: 4, reps: 3, percentage: 0.75, type: "strength" },
+            { lift: "bench", sets: 4, reps: 10, percentage: 0.70, type: "hypertrophy" }
+        ]
+    },
+    {
+        day: 4,
+        name: "Push",
+        split: "push",
+        lifts: [
+            { lift: "ohp", sets: 5, reps: 3, percentage: 0.87, type: "strength" },
+            { lift: "deadlift", sets: 3, reps: 8, percentage: 0.70, type: "hypertrophy" }
+        ]
+    },
+    {
+        day: 5,
+        name: "Pull",
+        split: "pull",
+        lifts: [
+            { lift: "row", sets: 5, reps: 5, percentage: 0.80, type: "strength" },
+            { lift: "squat", sets: 3, reps: 5, percentage: 0.70, type: "hypertrophy" }
+        ]
+    }
+];
 
 function calculate1RM(weight, reps) {
     if (!weight || !reps || weight <= 0 || reps <= 0) return null;
     return weight * (1 + reps / 30);
+}
+
+// Round DOWN to nearest multiple of 5
+function roundDownToFive(value) {
+    return Math.floor(value / 5) * 5;
 }
 
 function setResult(id, value) {
@@ -119,128 +222,209 @@ function toggleExercise(event) {
     }
 }
 
-// Initialize exercise selection listeners
+// Initialize exercise selection listeners and populate exercise lists from JS
 document.addEventListener('DOMContentLoaded', function () {
+    // Populate exercise lists from assistanceExercises object
+    populateExerciseLists();
+
     const exerciseLists = document.querySelectorAll('.exercise-list');
     exerciseLists.forEach(list => {
         list.addEventListener('click', toggleExercise);
     });
 });
 
+// Populate exercise lists dynamically from assistanceExercises
+function populateExerciseLists() {
+    const splits = ['push', 'pull', 'legs'];
 
-// Calculate projected 1RM for a lift after a given number of weeks
-function calculate1RMProjection(lift, startingOneRM, weeks) {
-    // Every 1.5 weeks = 1 increment cycle
-    // Each muscle is hit 2x per week, so after 3 sessions (1.5 weeks) we increment
-    // Every 5th increment is replaced with a deload
+    splits.forEach(split => {
+        const container = document.getElementById(`${split}-exercises`);
+        if (container) {
+            container.innerHTML = ''; // Clear existing content
 
+            assistanceExercises[split].forEach(exercise => {
+                const div = document.createElement('div');
+                div.className = 'exercise-item selected';
+                div.dataset.exercise = exercise;
+                div.textContent = exercise;
+                container.appendChild(div);
+            });
+        }
+    });
+}
+
+// Pick n random items from an array
+function pickRandom(arr, n) {
+    const shuffled = [...arr].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, Math.min(n, arr.length));
+}
+
+// Calculate 1RM for a given week, with progressive overload and deloads
+// Every week adds increment to 1RM, every 5th week is a deload
+// 1RM never decreases below max ever reached
+function calculate1RMForWeek(lift, startingOneRM, weekNumber) {
     const config = progressionConfig[lift];
-    const incrementsCompleted = Math.floor(weeks / 1.5);
+    let max1RM = startingOneRM;
+    let current1RM = startingOneRM;
 
-    let currentOneRM = startingOneRM;
-
-    for (let i = 1; i <= incrementsCompleted; i++) {
-        if (i % 5 === 0) {
-            // Every 5th increment is a deload (subtract)
-            currentOneRM -= config.deload;
+    for (let week = 1; week <= weekNumber; week++) {
+        if (week % 5 === 0) {
+            // Deload week - subtract deload value but don't update max
+            current1RM = max1RM - config.deload;
         } else {
-            // Normal increment (add)
-            currentOneRM += config.increment;
+            // Normal week - add increment
+            current1RM = max1RM + config.increment;
+            max1RM = current1RM; // Update max
         }
     }
 
-    return currentOneRM;
+    return current1RM;
+}
+
+// Get the max 1RM ever reached for a lift up to a given week
+function getMax1RMForWeek(lift, startingOneRM, weekNumber) {
+    const config = progressionConfig[lift];
+    let max1RM = startingOneRM;
+
+    // Count non-deload weeks to calculate max
+    for (let week = 1; week <= weekNumber; week++) {
+        if (week % 5 !== 0) {
+            max1RM += config.increment;
+        }
+    }
+
+    return max1RM;
 }
 
 function generateOverview() {
-    // Generate 1RM Table with initial values and projected monthly values
-    const tbody = document.querySelector('#tm-table tbody');
-    tbody.innerHTML = '';
-    const today = new Date();
-    const options = { day: 'numeric', month: 'short' };
+    const container = document.getElementById('overview-content');
+    container.innerHTML = '';
 
-    // Get initial 1RM values (trainingMaxes is 90% of 1RM, so divide by 0.9)
+    // Get initial 1RM values
     const initialOneRMs = {};
     lifts.forEach(lift => {
         initialOneRMs[lift] = trainingMaxes[lift] / 0.9;
     });
 
-    // First row: Initial date with actual 1RM values
+    // Show 1RM progression table - monthly values only
+    const tableTitle = document.createElement('h3');
+    tableTitle.textContent = 'One Rep Max Progression (6 Months)';
+    container.appendChild(tableTitle);
+
+    const table = document.createElement('table');
+    table.id = 'tm-table';
+
+    // Header
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    ['Month', 'Squat', 'Deadlift', 'Bench', 'OHP', 'Row'].forEach(text => {
+        const th = document.createElement('th');
+        th.textContent = text;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Body
+    const tbody = document.createElement('tbody');
+
+    // Initial row
     const initialRow = document.createElement('tr');
-    const initialDateCell = document.createElement('td');
-    initialDateCell.textContent = today.toLocaleDateString('en-GB', options);
-    initialRow.appendChild(initialDateCell);
+    const initialCell = document.createElement('td');
+    initialCell.textContent = 'Start';
+    initialRow.appendChild(initialCell);
 
     lifts.forEach(lift => {
         const cell = document.createElement('td');
-        cell.textContent = initialOneRMs[lift].toFixed(1) + " lb";
+        cell.textContent = roundDownToFive(initialOneRMs[lift]) + ' lb';
         initialRow.appendChild(cell);
     });
     tbody.appendChild(initialRow);
 
-    // Add 6 rows for monthly tracking with calculated projections
+    // Monthly rows (approximately 4.33 weeks per month)
     for (let month = 1; month <= 6; month++) {
         const row = document.createElement('tr');
+        const monthCell = document.createElement('td');
+        monthCell.textContent = `Month ${month}`;
+        row.appendChild(monthCell);
 
-        // Date cell with month offset
-        const dateCell = document.createElement('td');
-        const futureDate = new Date(today);
-        futureDate.setMonth(today.getMonth() + month);
-        dateCell.textContent = futureDate.toLocaleDateString('en-GB', options);
-        row.appendChild(dateCell);
+        const weeksElapsed = Math.round(month * 4.33);
 
-        // Calculate weeks elapsed (approximately 4.33 weeks per month)
-        const weeksElapsed = month * 4.33;
-
-        // Calculate projected 1RM for each lift
         lifts.forEach(lift => {
             const cell = document.createElement('td');
-            const projected1RM = calculate1RMProjection(lift, initialOneRMs[lift], weeksElapsed);
-            cell.textContent = projected1RM.toFixed(1) + " lb";
+            const oneRM = calculate1RMForWeek(lift, initialOneRMs[lift], weeksElapsed);
+            cell.textContent = roundDownToFive(oneRM) + ' lb';
             row.appendChild(cell);
         });
 
         tbody.appendChild(row);
     }
 
+    table.appendChild(tbody);
+    container.appendChild(table);
 }
 
 function downloadProgram() {
-    let content = "5/3/1 Program Generator\n\n";
-    content += `Date: ${new Date().toLocaleDateString()}\n\n`;
-
-    content += "Training Maxes (90% of 1RM):\n";
+    // Get initial 1RM values
+    const initialOneRMs = {};
     lifts.forEach(lift => {
-        content += `${lift.charAt(0).toUpperCase() + lift.slice(1)}: ${trainingMaxes[lift].toFixed(1)} lb\n`;
+        initialOneRMs[lift] = trainingMaxes[lift] / 0.9;
     });
 
-    content += "\nAssistance Work:\n";
-    const splits = ["push", "pull", "legs"];
+    let content = "=".repeat(60) + "\n";
+    content += "WORKOUT PROGRAM - 6 MONTH PLAN\n";
+    content += "=".repeat(60) + "\n";
+    content += `Generated: ${new Date().toLocaleDateString()}\n\n`;
 
-    splits.forEach(split => {
-        const exercises = assistanceData[split] || [];
-        content += `\n${split.charAt(0).toUpperCase() + split.slice(1)}:\n`;
-        if (exercises.length > 0) {
-            exercises.forEach(ex => {
-                content += `  - ${ex}\n`;
+    // Generate 26 weeks (~6 months) of programming
+    const numWeeks = 26;
+
+    for (let week = 1; week <= numWeeks; week++) {
+        const isDeload = (week % 5 === 0);
+
+        // Calculate current 1RMs for this week (use training max = 90% of 1RM for calculations)
+        const weekOneRMs = {};
+        lifts.forEach(lift => {
+            weekOneRMs[lift] = calculate1RMForWeek(lift, initialOneRMs[lift], week - 1);
+        });
+
+        content += "\n" + "=".repeat(60) + "\n";
+        content += `WEEK ${week}${isDeload ? ' (DELOAD)' : ''}\n`;
+        content += "=".repeat(60) + "\n";
+
+        // Show 1RMs for this week (rounded to 5)
+        content += "1RMs: ";
+        content += lifts.map(lift => {
+            const name = lift.charAt(0).toUpperCase() + lift.slice(1);
+            return `${name}: ${roundDownToFive(weekOneRMs[lift])}`;
+        }).join(", ") + "\n";
+
+        // Generate each day
+        programStructure.forEach(dayInfo => {
+            content += "\n" + "-".repeat(40) + "\n";
+            content += `Day ${dayInfo.day} – ${dayInfo.name}\n`;
+            content += "-".repeat(40) + "\n";
+
+            // Main lifts - use training max (90% of 1RM) for weight calculations
+            dayInfo.lifts.forEach(liftInfo => {
+                const trainingMax = weekOneRMs[liftInfo.lift] * 0.9;
+                const weight = roundDownToFive(trainingMax * liftInfo.percentage);
+                const liftName = liftInfo.lift.charAt(0).toUpperCase() + liftInfo.lift.slice(1);
+                content += `  ${liftName}: ${liftInfo.sets}×${liftInfo.reps} @ ${weight} lb\n`;
             });
-        } else {
-            content += `  - No exercises selected\n`;
-        }
-    });
 
-    // Log 1RM values and assistance selections to console
-    const oneRMs = {};
-    lifts.forEach(lift => {
-        const oneRM = trainingMaxes[lift] / 0.9; // calculate actual 1RM
-        // Store numeric value rounded to one decimal place
-        oneRMs[lift] = parseFloat(oneRM.toFixed(1));
-    });
-    console.log("1RM values:", oneRMs);
-    console.log("Assistance selections per split:", assistanceData);
+            // Assistance work - pick 3 random from the split
+            const selectedAssistance = assistanceData[dayInfo.split] || assistanceExercises[dayInfo.split];
+            const randomAssistance = pickRandom(selectedAssistance, 3);
 
-    // Instead of downloading, output the program content to the console
+            if (randomAssistance.length > 0) {
+                content += "Assistance:\n";
+                randomAssistance.forEach(exercise => {
+                    content += `  ${exercise}\n`;
+                });
+            }
+        });
+    }
 
-    // Clean up any created object URLs (none needed now)
-    // No file download performed
+    console.log(content);
 }

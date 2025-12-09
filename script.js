@@ -61,6 +61,15 @@ const progressionConfig = {
     deadlift: { increment: 10, deload: 20 }
 };
 
+// Default 1RM values for beginners
+const defaultWeights = {
+    squat: 85,
+    deadlift: 125,
+    bench: 85,
+    ohp: 50,
+    row: 65
+};
+
 // Program structure: 5 days per week
 const programStructure = [
     {
@@ -110,6 +119,19 @@ const programStructure = [
     }
 ];
 
+// Helper to determine if a week is a deload week
+// Deloads happen every other month (Month 2, 4, 6...)
+// On the FIRST week of that month.
+// Month 1: Weeks 1-4
+// Month 2: Weeks 5-8 (Deload on Week 5)
+// Month 3: Weeks 9-12
+// Month 4: Weeks 13-16 (Deload on Week 13)
+function isDeloadWeek(week) {
+    // Week 5, 13, 21...
+    // Formula: (week - 5) % 8 === 0
+    return (week >= 5) && ((week - 5) % 8 === 0);
+}
+
 function calculate1RM(weight, reps) {
     if (!weight || !reps || weight <= 0 || reps <= 0) return null;
     return weight * (1 + reps / 30);
@@ -154,13 +176,23 @@ function showStep(step) {
 }
 
 function calculateLift(lift) {
-    const weight = parseFloat(document.getElementById(`${lift}-weight`).value);
-    const reps = parseInt(document.getElementById(`${lift}-reps`).value);
+    const weightInput = document.getElementById(`${lift}-weight`).value;
+    const repsInput = document.getElementById(`${lift}-reps`).value;
+
+    // Use input value if present, otherwise default
+    // If input is empty string, use default. If 0, use 0 (though 0 weight is likely invalid for 1RM calculation it will just return null)
+    let weight = weightInput !== "" ? parseFloat(weightInput) : defaultWeights[lift];
+    let reps = repsInput !== "" ? parseInt(repsInput) : 1;
 
     const oneRM = calculate1RM(weight, reps);
 
     // Display 1RM
     const oneRMElement = document.getElementById(`${lift}-1rm`);
+    
+    // If we rely on defaults, strictly speaking the input is "empty" but we have a value.
+    // However, if the user explicitly types 0, we want to respect that (and show nothing/invalid).
+    // calculate1RM returns null for <= 0.
+    
     oneRMElement.textContent = oneRM ? `1RM: ${oneRM.toFixed(1)} lb` : "—";
 
     // Display Training Max (0.9 × 1RM)
@@ -203,22 +235,43 @@ function calculateAndValidateLifts() {
 }
 
 
+
+
 function gatherAssistanceData() {
     const splits = ['push', 'pull', 'legs'];
     assistanceData = {};
 
     splits.forEach(split => {
         const exerciseList = document.getElementById(`${split}-exercises`);
-        const selectedExercises = Array.from(exerciseList.querySelectorAll('.exercise-item.selected'))
-            .map(item => item.dataset.exercise);
+        // Select text values from selected items
+        const selectedExercises = Array.from(exerciseList.querySelectorAll('.exercise-item.selected .exercise-name'))
+            .map(span => span.textContent.trim()) // Get text from span
+            .filter(val => val.length > 0); // Ensure not empty
+
         assistanceData[split] = selectedExercises;
     });
 }
 
 // Toggle exercise selection
 function toggleExercise(event) {
-    if (event.target.classList.contains('exercise-item')) {
-        event.target.classList.toggle('selected');
+    // Check if the click originated from the editable span
+    // We rely on the fact that the span only wraps the text
+    if (event.target.classList.contains('exercise-name')) {
+        return; // Do nothing if clicking the text (browser handles focus)
+    }
+
+    // Otherwise toggle selection if clicking the container (background/padding)
+    const item = event.target.closest('.exercise-item');
+    if (item) {
+        item.classList.toggle('selected');
+    }
+}
+
+// Prevent newlines in contenteditable
+function handleEnterKey(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        event.target.blur(); // Remove focus
     }
 }
 
@@ -230,7 +283,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const exerciseLists = document.querySelectorAll('.exercise-list');
     exerciseLists.forEach(list => {
         list.addEventListener('click', toggleExercise);
+        
+        // Add listener for Enter key on contenteditable elements
+        list.addEventListener('keydown', function(e) {
+            if (e.target.classList.contains('exercise-name')) {
+                handleEnterKey(e);
+            }
+        });
     });
+
+    // Initialize all lifts with stored values or defaults
+    lifts.forEach(lift => calculateLift(lift));
 });
 
 // Populate exercise lists dynamically from assistanceExercises
@@ -245,13 +308,23 @@ function populateExerciseLists() {
             assistanceExercises[split].forEach(exercise => {
                 const div = document.createElement('div');
                 div.className = 'exercise-item selected';
-                div.dataset.exercise = exercise;
-                div.textContent = exercise;
+                
+                // Create contenteditable span for editable name
+                const span = document.createElement('span');
+                span.className = 'exercise-name';
+                span.contentEditable = true;
+                span.textContent = exercise;
+                // Disable spellcheck for cleaner look
+                span.spellcheck = false;
+                
+                div.appendChild(span);
                 container.appendChild(div);
             });
         }
     });
 }
+
+
 
 // Pick n random items from an array
 function pickRandom(arr, n) {
@@ -260,17 +333,19 @@ function pickRandom(arr, n) {
 }
 
 // Calculate 1RM for a given week, with progressive overload and deloads
-// Every week adds increment to 1RM, every 5th week is a deload
-// 1RM never decreases below max ever reached
+// Every week adds increment to 1RM, except deload weeks
+// Deloads happen every other month, on the 1st week of the yes month
 function calculate1RMForWeek(lift, startingOneRM, weekNumber) {
     const config = progressionConfig[lift];
     let max1RM = startingOneRM;
     let current1RM = startingOneRM;
 
     for (let week = 1; week <= weekNumber; week++) {
-        if (week % 5 === 0) {
-            // Deload week - subtract deload value but don't update max
+        if (isDeloadWeek(week)) {
+            // Deload week - subtract deload value AND update max
+            // This ensures future increments build from this new lower baseline
             current1RM = max1RM - config.deload;
+            max1RM = current1RM;
         } else {
             // Normal week - add increment
             current1RM = max1RM + config.increment;
@@ -341,26 +416,95 @@ function generateOverview() {
     });
     tbody.appendChild(initialRow);
 
-    // Monthly rows (approximately 4.33 weeks per month)
+    // Monthly rows (4 weeks per month)
+    let prevWeeksElapsed = 0;
     for (let month = 1; month <= 6; month++) {
         const row = document.createElement('tr');
         const monthCell = document.createElement('td');
         monthCell.textContent = `Month ${month}`;
         row.appendChild(monthCell);
 
-        const weeksElapsed = Math.round(month * 4.33);
+        const weeksElapsed = month * 4;
 
         lifts.forEach(lift => {
             const cell = document.createElement('td');
             const oneRM = calculate1RMForWeek(lift, initialOneRMs[lift], weeksElapsed);
+            
+            // Calculate increments and deloads for this month
+            // Range: (prevWeeksElapsed + 1) to weeksElapsed
+            let increments = 0;
+            let deloads = 0;
+            const config = progressionConfig[lift];
+
+            for (let w = prevWeeksElapsed + 1; w <= weeksElapsed; w++) {
+                if (isDeloadWeek(w)) {
+                    deloads += config.deload;
+                } else {
+                    increments += config.increment;
+                }
+            }
+
             cell.textContent = roundDownToFive(oneRM) + ' lb';
+
+            // Add diffs
+            if (increments > 0) {
+                const spanPlus = document.createElement('span');
+                spanPlus.className = 'diff-add';
+                spanPlus.textContent = '+' + increments;
+                cell.appendChild(spanPlus);
+            }
+
+            if (deloads > 0) {
+                const spanMinus = document.createElement('span');
+                spanMinus.className = 'diff-sub';
+                spanMinus.textContent = '-' + deloads;
+                cell.appendChild(spanMinus);
+            }
+
             row.appendChild(cell);
         });
 
         tbody.appendChild(row);
+
+        prevWeeksElapsed = weeksElapsed;
     }
 
     table.appendChild(tbody);
+
+    // Add Total Diff Row
+    const totalRow = document.createElement('tr');
+    const totalLabel = document.createElement('td');
+    totalLabel.textContent = 'Total Gain';
+    totalLabel.style.fontWeight = 'bold';
+    totalRow.appendChild(totalLabel);
+
+    lifts.forEach(lift => {
+        const cell = document.createElement('td');
+        const startVal = roundDownToFive(initialOneRMs[lift]);
+        // Month 6 ends at week 24 (6 * 4)
+        const endVal = roundDownToFive(calculate1RMForWeek(lift, initialOneRMs[lift], 24));
+        const diff = endVal - startVal;
+
+        if (diff > 0) {
+            const spanPlus = document.createElement('span');
+            spanPlus.className = 'diff-add';
+            // Make the font slightly larger/bolder as requested implicitly by "mirroring Start row" importance
+            spanPlus.style.fontWeight = 'bold';
+            spanPlus.textContent = '+' + diff + ' lb';
+            cell.appendChild(spanPlus);
+        } else if (diff < 0) {
+            const spanMinus = document.createElement('span');
+            spanMinus.className = 'diff-sub';
+            spanMinus.style.fontWeight = 'bold';
+            spanMinus.textContent = diff + ' lb';
+            cell.appendChild(spanMinus);
+        } else {
+            cell.textContent = '—';
+        }
+        totalRow.appendChild(cell);
+    });
+    tbody.appendChild(totalRow);
+
     container.appendChild(table);
 }
 
@@ -376,11 +520,11 @@ function downloadProgram() {
     content += "=".repeat(60) + "\n";
     content += `Generated: ${new Date().toLocaleDateString()}\n\n`;
 
-    // Generate 26 weeks (~6 months) of programming
-    const numWeeks = 26;
+    // Generate 24 weeks (6 months * 4 weeks) of programming
+    const numWeeks = 24;
 
     for (let week = 1; week <= numWeeks; week++) {
-        const isDeload = (week % 5 === 0);
+        const isDeload = isDeloadWeek(week);
 
         // Calculate current 1RMs for this week (use training max = 90% of 1RM for calculations)
         const weekOneRMs = {};

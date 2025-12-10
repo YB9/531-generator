@@ -55,10 +55,10 @@ const assistanceExercises = {
 // Progression settings (in lbs)
 const progressionConfig = {
     bench:     { increment: 5,    deload: 10 },  // more realistic, still pushes hard
-    ohp:       { increment: 2.5,  deload: 7.5 },  // keeps OHP from stalling early
-    squat:     { increment: 5,   deload: 20 },  // low and sustainable
-    row:       { increment: 7.5,  deload: 15 },  // strong and recoverable
-    deadlift:  { increment: 12.5, deload: 25 }   // highest capacity for aggression
+    ohp:       { increment: 2.5,  deload: 2.5 },  // keeps OHP from stalling early
+    squat:     { increment: 7.5,   deload: 15 },  // low and sustainable
+    row:       { increment: 5,  deload: 10 },  // strong and recoverable
+    deadlift:  { increment: 10, deload: 25 }   // highest capacity for aggression
 };
 
 // Default 1RM values for beginners
@@ -126,7 +126,7 @@ const programStructure = [
 // Cycle repeats
 function isDeloadWeek(week) {
     if (week < 1) return false;
-    return week % 4 === 0;
+    return week % 5 === 0;
 }
 
 function calculate1RM(weight, reps) {

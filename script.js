@@ -54,11 +54,11 @@ const assistanceExercises = {
 
 // Progression settings (in lbs)
 const progressionConfig = {
-    bench: { increment: 7.5, deload: 10 },
-    ohp: { increment: 5, deload: 7.5 },
-    squat: { increment: 7.5, deload: 15 },
-    row: { increment: 5, deload: 5 },
-    deadlift: { increment: 10, deload: 20 }
+    bench:     { increment: 7.5,  deload: 10 },   // aggressive
+    ohp:       { increment: 5,    deload: 10 },   // slight deload bump for recovery
+    squat:     { increment: 7.5,  deload: 15 },   // push monthly gains a bit
+    row:       { increment: 7.5,  deload: 10 },   // rows recover fast; add more
+    deadlift:  { increment: 10,   deload: 20 }    // most room for aggression
 };
 
 // Default 1RM values for beginners

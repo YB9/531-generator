@@ -54,11 +54,11 @@ const assistanceExercises = {
 
 // Progression settings (in lbs)
 const progressionConfig = {
-    bench:     { increment: 7.5,  deload: 10 },   // aggressive
-    ohp:       { increment: 5,    deload: 10 },   // slight deload bump for recovery
-    squat:     { increment: 7.5,  deload: 15 },   // push monthly gains a bit
-    row:       { increment: 7.5,  deload: 10 },   // rows recover fast; add more
-    deadlift:  { increment: 10,   deload: 20 }    // most room for aggression
+    bench:     { increment: 5,    deload: 10 },  // more realistic, still pushes hard
+    ohp:       { increment: 2.5,  deload: 7.5 },  // keeps OHP from stalling early
+    squat:     { increment: 5,   deload: 20 },  // low and sustainable
+    row:       { increment: 7.5,  deload: 15 },  // strong and recoverable
+    deadlift:  { increment: 12.5, deload: 25 }   // highest capacity for aggression
 };
 
 // Default 1RM values for beginners
@@ -120,16 +120,13 @@ const programStructure = [
 ];
 
 // Helper to determine if a week is a deload week
-// Deloads happen every other month (Month 2, 4, 6...)
-// On the FIRST week of that month.
-// Month 1: Weeks 1-4
-// Month 2: Weeks 5-8 (Deload on Week 5)
-// Month 3: Weeks 9-12
-// Month 4: Weeks 13-16 (Deload on Week 13)
+// Deloads happen every 4th week (Week 4, 8, 12, etc.)
+// Weeks 1-3: Accumulate load
+// Week 4: Deload
+// Cycle repeats
 function isDeloadWeek(week) {
-    // Week 5, 13, 21...
-    // Formula: (week - 5) % 8 === 0
-    return (week >= 5) && ((week - 5) % 8 === 0);
+    if (week < 1) return false;
+    return week % 4 === 0;
 }
 
 function calculate1RM(weight, reps) {
@@ -333,8 +330,7 @@ function pickRandom(arr, n) {
 }
 
 // Calculate 1RM for a given week, with progressive overload and deloads
-// Every week adds increment to 1RM, except deload weeks
-// Deloads happen every other month, on the 1st week of the yes month
+// Every week adds increment to 1RM, except deload weeks (every 4th week)
 function calculate1RMForWeek(lift, startingOneRM, weekNumber) {
     const config = progressionConfig[lift];
     let max1RM = startingOneRM;
@@ -354,21 +350,6 @@ function calculate1RMForWeek(lift, startingOneRM, weekNumber) {
     }
 
     return current1RM;
-}
-
-// Get the max 1RM ever reached for a lift up to a given week
-function getMax1RMForWeek(lift, startingOneRM, weekNumber) {
-    const config = progressionConfig[lift];
-    let max1RM = startingOneRM;
-
-    // Count non-deload weeks to calculate max
-    for (let week = 1; week <= weekNumber; week++) {
-        if (week % 5 !== 0) {
-            max1RM += config.increment;
-        }
-    }
-
-    return max1RM;
 }
 
 function generateOverview() {

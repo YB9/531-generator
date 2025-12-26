@@ -6,65 +6,52 @@ let assistanceData = {};
 // Assistance exercises for each split (moved from HTML)
 const assistanceExercises = {
     push: [
-        "Dumbbell flat bench press",
-        "Incline dumbbell bench press",
-        "Push-ups",
-        "Dumbbell floor press",
-        "Seated dumbbell shoulder press",
-        "Arnold press",
-        "Pike push-ups / handstand push-ups",
-        "Single-arm dumbbell overhead press",
-        "Dumbbell lateral raise",
-        "Dumbbell front raise",
-        "Lying triceps extension",
-        "Overhead dumbbell triceps extension",
-        "Diamond / close-grip push-ups"
+        "Dumbbell flat bench press (Chest)",
+        "Incline dumbbell bench press (Chest)",
+        "Push-ups (Chest)",
+        "Seated dumbbell shoulder press (Shoulders)",
+        "Arnold press (Shoulders)",
+        "Dumbbell lateral raise (Shoulders)",
+        "Dumbbell front raise (Shoulders)",
+        "Lying triceps extension (Triceps)",
+        "Overhead dumbbell triceps extension (Triceps)",
+        "Close-grip push-ups (Triceps)"
     ],
     pull: [
-        "Pull-ups",
-        "Chin-ups",
-        "Dumbbell pullover",
-        "Barbell pullover",
-        "Pendlay row",
-        "One-arm dumbbell row",
-        "Inverted row",
-        "Yates row",
-        "Bent-over rear delt raise",
-        "DB Y-raise",
-        "Barbell curl",
-        "Alternating dumbbell curl",
-        "Hammer curl"
+        "Pull-ups (Lats)",
+        "Chin-ups (Lats)",
+        "One-arm dumbbell row (Back)",
+        "Pendlay row (Back)",
+        "Dumbbell pullover (Lats)",
+        "Face Pulls (Rear Delts)",
+        "Barbell curl (Biceps)",
+        "Hammer curl (Biceps)",
+        "Wrist Curls (Forearms)",
+        "Reverse Barbell Curl (Forearms)"
     ],
     legs: [
-        "Front squat",
-        "Goblet squat",
-        "Walking lunges",
-        "Romanian deadlift",
-        "Stiff-leg deadlift",
-        "Barbell good morning",
-        "Barbell hip thrust",
-        "Nordic hamstring curl",
-        "Bulgarian split squat",
-        "Step-ups",
-        "Single-leg Romanian deadlift",
-        "Single-leg glute bridge",
-        "Standing calf raise"
+        "Bulgarian Split Squat (Quads/Glutes)",
+        "Romanian Deadlift (Hamstrings)",
+        "Barbell Hip Thrust (Glutes)",
+        "Walking Lunges (Legs)",
+        "Standing Calf Raise (Calves)"
     ]
 };
 
-// Progression settings (in lbs)
+// Progression settings (in lbs per 4-week cycle)
 const progressionConfig = {
-    bench: { increment: 5, deload: 10 },  // more realistic, still pushes hard
-    ohp: { increment: 2.5, deload: 2.5 },  // keeps OHP from stalling early
-    squat: { increment: 7.5, deload: 15 },  // low and sustainable
-    row: { increment: 5, deload: 10 },  // strong and recoverable
-    deadlift: { increment: 10, deload: 25 }   // highest capacity for aggression
+    bench: 23,
+    ohp: 15,
+    squat: 12,
+    row: 17,
+    deadlift: 20
 };
+
 
 // Default 1RM values for beginners
 const defaultWeights = {
-    squat: 85,
-    deadlift: 125,
+    squat: 45,
+    deadlift: 95,
     bench: 85,
     ohp: 50,
     row: 65
@@ -271,9 +258,9 @@ function generateProgramData() {
 
 
                 } else {
-                    // Hypertrophy Logic (Standard sets/reps based on TRUE 1RM)
-                    // Note: liftInfo.percentage is e.g. 0.70
-                    weight = roundDownToFive(oneRM * liftInfo.percentage);
+                    // Hypertrophy Logic (Standard sets/reps based on Training Max)
+                    const trainingMax = oneRM * 0.9;
+                    weight = roundDownToFive(trainingMax * liftInfo.percentage);
                     dayData.mainLifts.push({
                         name: liftInfo.lift.charAt(0).toUpperCase() + liftInfo.lift.slice(1),
                         sets: liftInfo.sets,
@@ -297,55 +284,7 @@ function generateProgramData() {
     return { weeks, initialOneRMs };
 }
 
-function generateMarkdownTable(data) {
-    let md = "";
 
-    data.weeks.forEach(week => {
-        md += `\n### Week ${week.number}\n\n`;
-
-        // 1RM Table for the Week
-        md += `| Lift | Est. 1RM |\n|---|---|\n`;
-        lifts.forEach(lift => {
-            const name = lift.charAt(0).toUpperCase() + lift.slice(1);
-            md += `| ${name} | ${roundDownToFive(week.lifts1RM[lift])} lb |\n`;
-        });
-        md += `\n`;
-
-        // Days Table
-        md += `| Day | Lifts | Assistance |\n|---|---|---|\n`;
-
-        week.days.forEach(day => {
-            // Group lifts for MD table consistency
-            const groupedLifts = {};
-            day.mainLifts.forEach(l => {
-                if (!groupedLifts[l.name]) groupedLifts[l.name] = [];
-                groupedLifts[l.name].push(l);
-            });
-
-            const mainLiftsStr = Object.entries(groupedLifts).map(([name, sets]) => {
-                let s = `**${name}**: `;
-                const repsList = [];
-                sets.forEach(set => {
-                    if (set.sets > 1) {
-                        for (let i = 0; i < set.sets; i++) {
-                            repsList.push(`${set.reps}x ${set.weight}lb`);
-                        }
-                    } else {
-                        repsList.push(`${set.reps}x ${set.weight}lb`);
-                    }
-                });
-                return s + repsList.join(", ");
-            }).join("<br>");
-
-            const assistStr = day.assistance.join(", ");
-
-            md += `| Day ${day.day} (${day.name}) | ${mainLiftsStr} | ${assistStr} |\n`;
-        });
-        md += `\n---\n`;
-    });
-
-    return md;
-}
 
 
 function prevStep(step) {
@@ -520,7 +459,7 @@ function pickRandom(arr, n) {
 // weekNumber passed here is effectively "weeks completed" or similar accumulator
 // In our usage: calculate1RMForWeek(lift, start, (cycleIndex * 4))
 function calculate1RMForWeek(lift, startingOneRM, weeksElapsed) {
-    const config = progressionConfig[lift];
+    const increment = progressionConfig[lift];
     let current1RM = startingOneRM;
 
     // Use integer division to find how many FULL cycles have passed
@@ -530,7 +469,7 @@ function calculate1RMForWeek(lift, startingOneRM, weeksElapsed) {
     const cyclesCompleted = Math.floor(weeksElapsed / 4);
 
     if (cyclesCompleted > 0) {
-        current1RM += (config.increment * cyclesCompleted);
+        current1RM += (increment * cyclesCompleted);
     }
 
     return current1RM;

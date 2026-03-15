@@ -40,11 +40,11 @@ const assistanceExercises = {
 
 // Progression settings (in lbs per 4-week cycle)
 const progressionConfig = {
-    bench: 23,
-    ohp: 15,
-    squat: 12,
-    row: 17,
-    deadlift: 20
+    bench: 15,
+    ohp: 11,
+    squat: 9,
+    row: 13,
+    deadlift: 17
 };
 
 
